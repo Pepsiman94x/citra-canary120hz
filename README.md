@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`9e752b9cf`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6556](https://github.com/citra-emu/citra//pull/6556) | [`e0db54c77`](https://github.com/citra-emu/citra//pull/6556/files) | build: Rework CI and move all bundling into new build target. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6626](https://github.com/citra-emu/citra//pull/6626) | [`8daf8edcf`](https://github.com/citra-emu/citra//pull/6626/files) | video_core: Reduce nihstro includes in headers. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
