@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`39adbf9dc`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6556](https://github.com/citra-emu/citra//pull/6556) | [`1d5bf8f32`](https://github.com/citra-emu/citra//pull/6556/files) | build: Rework CI and move all bundling into new build target. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6600](https://github.com/citra-emu/citra//pull/6600) | [`a54f4f52a`](https://github.com/citra-emu/citra//pull/6600/files) | frontend: Added Hybrid Screen screen layout option (#4542) | [esliwka](https://github.com/esliwka/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
