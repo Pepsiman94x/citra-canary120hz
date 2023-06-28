@@ -429,6 +429,7 @@ void GMainWindow::InitializeWidgets() {
     actionGroup_ScreenLayouts->addAction(ui->action_Screen_Layout_Default);
     actionGroup_ScreenLayouts->addAction(ui->action_Screen_Layout_Single_Screen);
     actionGroup_ScreenLayouts->addAction(ui->action_Screen_Layout_Large_Screen);
+    actionGroup_ScreenLayouts->addAction(ui->action_Screen_Layout_Hybrid_Screen);
     actionGroup_ScreenLayouts->addAction(ui->action_Screen_Layout_Side_by_Side);
     actionGroup_ScreenLayouts->addAction(ui->action_Screen_Layout_Separate_Windows);
 }
@@ -847,6 +848,7 @@ void GMainWindow::ConnectMenuEvents() {
     connect_menu(ui->action_Screen_Layout_Default, &GMainWindow::ChangeScreenLayout);
     connect_menu(ui->action_Screen_Layout_Single_Screen, &GMainWindow::ChangeScreenLayout);
     connect_menu(ui->action_Screen_Layout_Large_Screen, &GMainWindow::ChangeScreenLayout);
+    connect_menu(ui->action_Screen_Layout_Hybrid_Screen, &GMainWindow::ChangeScreenLayout);
     connect_menu(ui->action_Screen_Layout_Side_by_Side, &GMainWindow::ChangeScreenLayout);
     connect_menu(ui->action_Screen_Layout_Separate_Windows, &GMainWindow::ChangeScreenLayout);
     connect_menu(ui->action_Screen_Layout_Swap_Screens, &GMainWindow::OnSwapScreens);
@@ -1930,6 +1932,8 @@ void GMainWindow::ChangeScreenLayout() {
         new_layout = Settings::LayoutOption::SingleScreen;
     } else if (ui->action_Screen_Layout_Large_Screen->isChecked()) {
         new_layout = Settings::LayoutOption::LargeScreen;
+    } else if (ui->action_Screen_Layout_Hybrid_Screen->isChecked()) {
+        new_layout = Settings::LayoutOption::HybridScreen;
     } else if (ui->action_Screen_Layout_Side_by_Side->isChecked()) {
         new_layout = Settings::LayoutOption::SideScreen;
     } else if (ui->action_Screen_Layout_Separate_Windows->isChecked()) {
@@ -1949,6 +1953,8 @@ void GMainWindow::ToggleScreenLayout() {
         case Settings::LayoutOption::SingleScreen:
             return Settings::LayoutOption::LargeScreen;
         case Settings::LayoutOption::LargeScreen:
+            return Settings::LayoutOption::HybridScreen;
+        case Settings::LayoutOption::HybridScreen:
             return Settings::LayoutOption::SideScreen;
         case Settings::LayoutOption::SideScreen:
             return Settings::LayoutOption::SeparateWindows;
@@ -2828,6 +2834,8 @@ void GMainWindow::SyncMenuUISettings() {
                                                        Settings::LayoutOption::SingleScreen);
     ui->action_Screen_Layout_Large_Screen->setChecked(Settings::values.layout_option.GetValue() ==
                                                       Settings::LayoutOption::LargeScreen);
+    ui->action_Screen_Layout_Hybrid_Screen->setChecked(Settings::values.layout_option.GetValue() ==
+                                                       Settings::LayoutOption::HybridScreen);
     ui->action_Screen_Layout_Side_by_Side->setChecked(Settings::values.layout_option.GetValue() ==
                                                       Settings::LayoutOption::SideScreen);
     ui->action_Screen_Layout_Separate_Windows->setChecked(
