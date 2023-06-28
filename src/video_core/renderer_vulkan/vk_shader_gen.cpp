@@ -979,7 +979,7 @@ static void AppendProcTexShiftOffset(std::string& out, std::string_view v, ProcT
 static void AppendProcTexClamp(std::string& out, std::string_view var, ProcTexClamp mode) {
     switch (mode) {
     case ProcTexClamp::ToZero:
-        out += fmt::format("{0} = {0} > 1.0 ? 0 : {0};\n", var);
+        out += fmt::format("{0} = {0} > 1.0 ? 0.0 : {0};\n", var);
         break;
     case ProcTexClamp::ToEdge:
         out += fmt::format("{0} = min({0}, 1.0);\n", var);

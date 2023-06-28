@@ -44,7 +44,7 @@ public:
     virtual ~RendererBase();
 
     /// Returns the rasterizer owned by the renderer
-    virtual VideoCore::RasterizerInterface* Rasterizer() const = 0;
+    virtual VideoCore::RasterizerInterface* Rasterizer() = 0;
 
     /// Finalize rendering the guest frame and draw into the presentation texture
     virtual void SwapBuffers() = 0;
@@ -64,6 +64,9 @@ public:
 
     /// Synchronizes fixed function renderer state
     virtual void Sync() {}
+
+    /// This is called to notify the rendering backend of a surface change
+    virtual void NotifySurfaceChanged() {}
 
     /// Returns the resolution scale factor relative to the native 3DS screen resolution
     u32 GetResolutionScaleFactor();
