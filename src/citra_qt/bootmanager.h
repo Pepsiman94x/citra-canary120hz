@@ -17,6 +17,7 @@ class QKeyEvent;
 class QTouchEvent;
 
 class GRenderWindow;
+class GMainWindow;
 
 namespace VideoCore {
 enum class LoadCallbackStage;
@@ -161,6 +162,7 @@ public slots:
     void OnEmulationStarting(EmuThread* emu_thread);
     void OnEmulationStopping();
     void OnFramebufferSizeChanged();
+    void UnconfineMouse();
 
 signals:
     /// Emitted when the window is closed
@@ -178,6 +180,7 @@ private:
     void TouchBeginEvent(const QTouchEvent* event);
     void TouchUpdateEvent(const QTouchEvent* event);
     void TouchEndEvent();
+    void ConfineMouse();
 
     void OnMinimalClientAreaChangeRequest(std::pair<u32, u32> minimal_size) override;
 
@@ -185,6 +188,8 @@ private:
     void InitializeVulkan();
     void InitializeSoftware();
     bool LoadOpenGL();
+    GMainWindow* main_window;
+    QDialog* window_frame;
 
     QWidget* child_widget = nullptr;
 
@@ -201,6 +206,8 @@ private:
     QByteArray geometry;
     bool first_frame = false;
     bool has_focus = false;
+    bool confined = false;
+    QWidget* foreground_window;
 
 protected:
     void showEvent(QShowEvent* event) override;
