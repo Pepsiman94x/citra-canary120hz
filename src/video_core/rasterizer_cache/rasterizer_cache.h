@@ -74,6 +74,7 @@ RasterizerCache<T>::~RasterizerCache() {
 template <class T>
 void RasterizerCache<T>::TickFrame() {
     custom_tex_manager.TickFrame();
+    runtime.TickFrame();
 
     const u32 scale_factor = renderer.GetResolutionScaleFactor();
     const bool resolution_scale_changed = resolution_scale_factor != scale_factor;
@@ -676,8 +677,8 @@ typename T::Framebuffer RasterizerCache<T>::GetFramebufferSurfaces(bool using_co
         fb_rect = depth_rect;
     }
 
-    const Surface* color_surface = color_id ? &slot_surfaces[color_id] : nullptr;
-    const Surface* depth_surface = depth_id ? &slot_surfaces[depth_id] : nullptr;
+    Surface* const color_surface = color_id ? &slot_surfaces[color_id] : nullptr;
+    Surface* const depth_surface = depth_id ? &slot_surfaces[depth_id] : nullptr;
 
     if (color_id) {
         color_level = color_surface->LevelOf(color_params.addr);
