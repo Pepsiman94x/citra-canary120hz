@@ -181,10 +181,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
         return JNI_ERR;
 
     // Initialize Logger
-    Log::Filter log_filter;
+    Common::Log::Filter log_filter;
     log_filter.ParseFilterString(Settings::values.log_filter.GetValue());
-    Log::SetGlobalFilter(log_filter);
-    Log::AddBackend(std::make_unique<Log::LogcatBackend>());
+    Common::Log::SetGlobalFilter(log_filter);
 
     // Initialize misc classes
     s_savestate_info_class = reinterpret_cast<jclass>(
