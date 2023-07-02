@@ -1,3 +1,17 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`ad483f60c`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6638](https://github.com/citra-emu/citra//pull/6638) | [`0ed8468a4`](https://github.com/citra-emu/citra//pull/6638/files) | common: Backport yuzu log improvements | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6643](https://github.com/citra-emu/citra//pull/6643) | [`31829b64f`](https://github.com/citra-emu/citra//pull/6643/files) | shader/jit: Use `xbyak::util::Cpu` for Host capabilities | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [6645](https://github.com/citra-emu/citra//pull/6645) | [`7475066bc`](https://github.com/citra-emu/citra//pull/6645/files) | core: backport some ResultCode updates | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6652](https://github.com/citra-emu/citra//pull/6652) | [`910cf12c8`](https://github.com/citra-emu/citra//pull/6652/files) | nfc: Use existing secrets infrastructure for amiibo encryption. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
