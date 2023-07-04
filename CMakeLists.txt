@@ -13,11 +13,22 @@ include(CMakeDependentOption)
 
 project(citra LANGUAGES C CXX ASM)
 
-if (IOS)
-    # Enable searching CMAKE_PREFIX_PATH for bundled dependencies.
-    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
-    set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
-    set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
+if (APPLE)
+    # Silence warnings on empty objects, for example when platform-specific code is #ifdef'd out.
+    set_property(GLOBAL APPEND PROPERTY STATIC_LIBRARY_OPTIONS "-no_warning_for_no_symbols")
+
+    if (IOS)
+        # Minimum iOS 14
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "14.0")
+
+        # Enable searching CMAKE_PREFIX_PATH for bundled dependencies.
+        set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
+        set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
+        set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
+    else()
+        # Minimum macOS 11
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
+    endif()
 endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
@@ -351,11 +362,6 @@ endif()
 
 enable_testing()
 add_subdirectory(externals)
-
-# See externals/CMakeLists.txt
-foreach(def ${CRYPTOPP_COMPILE_DEFINITIONS})
-    add_definitions(-D${def})
-endforeach()
 
 # Boost
 if (USE_SYSTEM_BOOST)

@@ -295,7 +295,6 @@ void RasterizerSoftware::ProcessTriangle(const Vertex& v0, const Vertex& v1, con
     const bool stencil_action_enable =
         regs.framebuffer.output_merger.stencil_test.enable &&
         regs.framebuffer.framebuffer.depth_format == FramebufferRegs::DepthFormat::D24S8;
-    const auto stencil_test = regs.framebuffer.output_merger.stencil_test;
 
     // Enter rasterization loop, starting at the center of the topleft bounding box corner.
     // TODO: Not sure if looping through x first might be faster
@@ -828,6 +827,10 @@ bool RasterizerSoftware::DoAlphaTest(u8 alpha) const {
         return alpha > output_merger.alpha_test.ref;
     case FramebufferRegs::CompareFunc::GreaterThanOrEqual:
         return alpha >= output_merger.alpha_test.ref;
+    default:
+        LOG_CRITICAL(Render_Software, "Unknown alpha test condition {}",
+                     output_merger.alpha_test.func.Value());
+        return false;
     }
 }
 
