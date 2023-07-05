@@ -1,3 +1,19 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`ad483f60c`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6638](https://github.com/citra-emu/citra//pull/6638) | [`d7b426038`](https://github.com/citra-emu/citra//pull/6638/files) | common: Backport yuzu log improvements | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6652](https://github.com/citra-emu/citra//pull/6652) | [`910cf12c8`](https://github.com/citra-emu/citra//pull/6652/files) | nfc: Use existing secrets infrastructure for amiibo encryption. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6656](https://github.com/citra-emu/citra//pull/6656) | [`980d5f07b`](https://github.com/citra-emu/citra//pull/6656/files) | ci: Fix CI builds being marked as dirty. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6658](https://github.com/citra-emu/citra//pull/6658) | [`d82435a81`](https://github.com/citra-emu/citra//pull/6658/files) | code: Use std::span where appropriate | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6662](https://github.com/citra-emu/citra//pull/6662) | [`8086f65f5`](https://github.com/citra-emu/citra//pull/6662/files) | build: Clear out remaining compile warnings. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6664](https://github.com/citra-emu/citra//pull/6664) | [`882b34629`](https://github.com/citra-emu/citra//pull/6664/files) | renderer_software: Fix screen rendering | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
