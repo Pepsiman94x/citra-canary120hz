@@ -23,7 +23,6 @@ std::string_view GetAudioEmulationName(AudioEmulation emulation) {
     default:
         return "Invalid";
     }
-    UNREACHABLE();
 };
 
 std::string_view GetGraphicsAPIName(GraphicsAPI api) {
@@ -35,7 +34,6 @@ std::string_view GetGraphicsAPIName(GraphicsAPI api) {
     default:
         return "Invalid";
     }
-    UNREACHABLE();
 }
 
 std::string_view GetTextureFilterName(TextureFilter filter) {
@@ -57,7 +55,6 @@ std::string_view GetTextureFilterName(TextureFilter filter) {
     default:
         return "Invalid";
     }
-    UNREACHABLE();
 }
 
 } // Anonymous namespace
