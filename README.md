@@ -1,3 +1,20 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`ad483f60c`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6638](https://github.com/citra-emu/citra//pull/6638) | [`d7b426038`](https://github.com/citra-emu/citra//pull/6638/files) | common: Backport yuzu log improvements | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6652](https://github.com/citra-emu/citra//pull/6652) | [`910cf12c8`](https://github.com/citra-emu/citra//pull/6652/files) | nfc: Use existing secrets infrastructure for amiibo encryption. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6658](https://github.com/citra-emu/citra//pull/6658) | [`d82435a81`](https://github.com/citra-emu/citra//pull/6658/files) | code: Use std::span where appropriate | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6664](https://github.com/citra-emu/citra//pull/6664) | [`882b34629`](https://github.com/citra-emu/citra//pull/6664/files) | renderer_software: Fix screen rendering | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6669](https://github.com/citra-emu/citra//pull/6669) | [`346d52cd3`](https://github.com/citra-emu/citra//pull/6669/files) | mic_u: Fix up logic for populating shared memory sample buffer. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6670](https://github.com/citra-emu/citra//pull/6670) | [`3fb30f483`](https://github.com/citra-emu/citra//pull/6670/files) | act: Use correct service session limit. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6671](https://github.com/citra-emu/citra//pull/6671) | [`107c470bb`](https://github.com/citra-emu/citra//pull/6671/files) | service: nfc: Start adapter communication on scan | [german77](https://github.com/german77/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
