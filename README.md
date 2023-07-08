@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`ad483f60c`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6668](https://github.com/citra-emu/citra//pull/6668) | [`8502a769f`](https://github.com/citra-emu/citra//pull/6668/files) | shader_jit: Add optimizations up to `x86-64-v4` | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [6669](https://github.com/citra-emu/citra//pull/6669) | [`346d52cd3`](https://github.com/citra-emu/citra//pull/6669/files) | mic_u: Fix up logic for populating shared memory sample buffer. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6671](https://github.com/citra-emu/citra//pull/6671) | [`107c470bb`](https://github.com/citra-emu/citra//pull/6671/files) | service: nfc: Start adapter communication on scan | [german77](https://github.com/german77/) | Yes |
+| [6675](https://github.com/citra-emu/citra//pull/6675) | [`878cfb3af`](https://github.com/citra-emu/citra//pull/6675/files) | hle: Stub some service calls used by the home menu. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
