@@ -112,6 +112,16 @@ public:
     void ExitCurrentThread();
 
     /**
+     * Stops a thread and removes it from the thread_list
+     */
+    void TerminateThread(std::shared_ptr<Thread> thread);
+
+    /**
+     * Terminates all threads belonging to a specific process.
+     */
+    void TerminateProcessThreads(std::shared_ptr<Process> process);
+
+    /**
      * Get a const reference to the thread list for debug use
      */
     std::span<const std::shared_ptr<Thread>> GetThreadList();

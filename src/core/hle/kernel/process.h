@@ -232,7 +232,7 @@ public:
     ResultVal<VAddr> HeapAllocate(VAddr target, u32 size, VMAPermission perms,
                                   MemoryState memory_state = MemoryState::Private,
                                   bool skip_range_check = false);
-    ResultCode HeapFree(VAddr target, u32 size);
+    ResultCode HeapFree(VAddr target, u32 size, bool skip_range_check = false);
 
     ResultVal<VAddr> LinearAllocate(VAddr target, u32 size, VMAPermission perms);
     ResultCode LinearFree(VAddr target, u32 size);
@@ -243,6 +243,8 @@ public:
                      bool privileged = false);
 
 private:
+    void FreeAllMemory();
+
     KernelSystem& kernel;
 
     friend class boost::serialization::access;

@@ -79,7 +79,18 @@ std::shared_ptr<Process> KernelSystem::CreateProcess(std::shared_ptr<CodeSet> co
     return process;
 }
 
-void KernelSystem::RemoveProcess(std::shared_ptr<Process> process) {
+void KernelSystem::TerminateProcess(std::shared_ptr<Process> process) {
+    LOG_INFO(Kernel_SVC, "Process {} exiting", process->process_id);
+
+    ASSERT_MSG(process->status == ProcessStatus::Running, "Process has already exited");
+    process->status = ProcessStatus::Exited;
+
+    // Stop all process threads.
+    for (u32 core = 0; core < Core::GetNumCores(); core++) {
+        GetThreadManager(core).TerminateProcessThreads(process);
+    }
+
+    process->Exit();
     std::erase(process_list, process);
 }
 
@@ -274,12 +285,14 @@ ResultVal<VAddr> Process::HeapAllocate(VAddr target, u32 size, VMAPermission per
     return target;
 }
 
-ResultCode Process::HeapFree(VAddr target, u32 size) {
+ResultCode Process::HeapFree(VAddr target, u32 size, bool skip_range_check) {
     LOG_DEBUG(Kernel, "Free heap target={:08X}, size={:08X}", target, size);
     if (target < Memory::HEAP_VADDR || target + size > Memory::HEAP_VADDR_END ||
         target + size < target) {
-        LOG_ERROR(Kernel, "Invalid heap address");
-        return ERR_INVALID_ADDRESS;
+        if (!skip_range_check) {
+            LOG_ERROR(Kernel, "Invalid heap address");
+            return ERR_INVALID_ADDRESS;
+        }
     }
 
     if (size == 0) {
@@ -471,6 +484,44 @@ ResultCode Process::Unmap(VAddr target, VAddr source, u32 size, VMAPermission pe
     return RESULT_SUCCESS;
 }
 
+void Process::FreeAllMemory() {
+    if (memory_region == nullptr || resource_limit == nullptr) {
+        return;
+    }
+
+    // Free any heap/linear memory allocations.
+    auto vma_map_copy{vm_manager.vma_map};
+    for (auto& entry : vma_map_copy) {
+        if (entry.second.type == VMAType::BackingMemory) {
+            const auto addr = entry.first;
+            const auto size = entry.second.size;
+            if (addr >= GetLinearHeapBase() && addr + size <= GetLinearHeapLimit()) {
+                ASSERT(LinearFree(addr, size) == RESULT_SUCCESS);
+            } else if (addr >= Memory::HEAP_VADDR && addr + size <= Memory::HEAP_VADDR_END) {
+                ASSERT(HeapFree(addr, size) == RESULT_SUCCESS);
+            } else {
+                LOG_DEBUG(Kernel, "Skipping memory unmap for address 0x{:08X}, size 0x{:08X}", addr,
+                          size);
+            }
+        }
+    }
+
+    // Free code memory.
+    ASSERT(HeapFree(codeset->CodeSegment().addr, codeset->CodeSegment().size, true) ==
+           RESULT_SUCCESS);
+    ASSERT(HeapFree(codeset->RODataSegment().addr, codeset->RODataSegment().size, true) ==
+           RESULT_SUCCESS);
+    ASSERT(HeapFree(codeset->DataSegment().addr, codeset->DataSegment().size, true) ==
+           RESULT_SUCCESS);
+
+    // Diagnostics for debugging.
+    // TODO: The way shared memory and TLS pages are allocated can result in very slight leaks in
+    // these values still.
+    LOG_DEBUG(Kernel, "Remaining memory used after process cleanup: 0x{:08X}", memory_used);
+    LOG_DEBUG(Kernel, "Remaining memory resource commit after process cleanup: 0x{:08X}",
+              resource_limit->current_commit);
+}
+
 Kernel::Process::Process(KernelSystem& kernel)
     : Object(kernel), handle_table(kernel), vm_manager(kernel.memory, *this), kernel(kernel) {
     kernel.memory.RegisterPageTable(vm_manager.page_table);
@@ -484,6 +535,7 @@ Kernel::Process::~Process() {
     // memory etc.) even if they are still referenced by other processes.
     handle_table.Clear();
 
+    FreeAllMemory();
     kernel.memory.UnregisterPageTable(vm_manager.page_table);
 }
 

@@ -199,11 +199,29 @@ void ThreadManager::WaitCurrentThread_Sleep() {
 }
 
 void ThreadManager::ExitCurrentThread() {
-    Thread* thread = GetCurrentThread();
+    TerminateThread(current_thread);
+    kernel.PrepareReschedule();
+}
+
+void ThreadManager::TerminateThread(std::shared_ptr<Thread> thread) {
     thread->Stop();
-    thread_list.erase(std::remove_if(thread_list.begin(), thread_list.end(),
-                                     [thread](const auto& p) { return p.get() == thread; }),
-                      thread_list.end());
+    std::erase(thread_list, thread);
+}
+
+void ThreadManager::TerminateProcessThreads(std::shared_ptr<Process> process) {
+    std::erase_if(thread_list, [&](auto&& thread) {
+        if (thread == current_thread || thread->owner_process.lock() != process) {
+            return false;
+        }
+        // TODO: This may not be correct for ready/running threads.
+        thread->Stop();
+        return true;
+    });
+
+    // Kill the current thread last.
+    if (current_thread != nullptr && current_thread->owner_process.lock() == process) {
+        ExitCurrentThread();
+    }
 }
 
 void ThreadManager::ThreadWakeupCallback(u64 thread_id, s64 cycles_late) {
