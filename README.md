@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`ad483f60c`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6668](https://github.com/citra-emu/citra//pull/6668) | [`8502a769f`](https://github.com/citra-emu/citra//pull/6668/files) | shader_jit: Add optimizations up to `x86-64-v4` | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [6677](https://github.com/citra-emu/citra//pull/6677) | [`fa9fed41a`](https://github.com/citra-emu/citra//pull/6677/files) | audio_core: Clean up cubeb backend. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6680](https://github.com/citra-emu/citra//pull/6680) | [`40a099386`](https://github.com/citra-emu/citra//pull/6680/files) | kernel: Improvements to process cleanup. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6684](https://github.com/citra-emu/citra//pull/6684) | [`c771c8695`](https://github.com/citra-emu/citra//pull/6684/files) | audio_core/hle: Stub binary requests SaveState and LoadState. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6687](https://github.com/citra-emu/citra//pull/6687) | [`458e3d797`](https://github.com/citra-emu/citra//pull/6687/files) | service: nfc: Keep tag alive while it's being used | [german77](https://github.com/german77/) | Yes |
+| [6688](https://github.com/citra-emu/citra//pull/6688) | [`fffc6042c`](https://github.com/citra-emu/citra//pull/6688/files) | Remove some global usages of system | [german77](https://github.com/german77/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
