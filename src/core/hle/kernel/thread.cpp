@@ -199,11 +199,34 @@ void ThreadManager::WaitCurrentThread_Sleep() {
 }
 
 void ThreadManager::ExitCurrentThread() {
-    Thread* thread = GetCurrentThread();
-    thread->Stop();
-    thread_list.erase(std::remove_if(thread_list.begin(), thread_list.end(),
-                                     [thread](const auto& p) { return p.get() == thread; }),
-                      thread_list.end());
+    current_thread->Stop();
+    std::erase(thread_list, current_thread);
+    kernel.PrepareReschedule();
+}
+
+void ThreadManager::TerminateProcessThreads(std::shared_ptr<Process> process) {
+    auto iter = thread_list.begin();
+    while (iter != thread_list.end()) {
+        auto& thread = *iter;
+        if (thread == current_thread || thread->owner_process.lock() != process) {
+            iter++;
+            continue;
+        }
+
+        if (thread->status != ThreadStatus::WaitSynchAny &&
+            thread->status != ThreadStatus::WaitSynchAll) {
+            // TODO: How does the real kernel handle non-waiting threads?
+            LOG_WARNING(Kernel, "Terminating non-waiting thread {}", thread->thread_id);
+        }
+
+        thread->Stop();
+        iter = thread_list.erase(iter);
+    }
+
+    // Kill the current thread last, if applicable.
+    if (current_thread != nullptr && current_thread->owner_process.lock() == process) {
+        ExitCurrentThread();
+    }
 }
 
 void ThreadManager::ThreadWakeupCallback(u64 thread_id, s64 cycles_late) {

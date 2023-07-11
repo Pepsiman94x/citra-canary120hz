@@ -79,7 +79,18 @@ std::shared_ptr<Process> KernelSystem::CreateProcess(std::shared_ptr<CodeSet> co
     return process;
 }
 
-void KernelSystem::RemoveProcess(std::shared_ptr<Process> process) {
+void KernelSystem::TerminateProcess(std::shared_ptr<Process> process) {
+    LOG_INFO(Kernel_SVC, "Process {} exiting", process->process_id);
+
+    ASSERT_MSG(process->status == ProcessStatus::Running, "Process has already exited");
+    process->status = ProcessStatus::Exited;
+
+    // Stop all process threads.
+    for (u32 core = 0; core < Core::GetNumCores(); core++) {
+        GetThreadManager(core).TerminateProcessThreads(process);
+    }
+
+    process->Exit();
     std::erase(process_list, process);
 }
 
@@ -268,6 +279,7 @@ ResultVal<VAddr> Process::HeapAllocate(VAddr target, u32 size, VMAPermission per
         interval_target += interval_size;
     }
 
+    holding_memory += allocated_fcram;
     memory_used += size;
     resource_limit->current_commit += size;
 
@@ -288,13 +300,14 @@ ResultCode Process::HeapFree(VAddr target, u32 size) {
 
     // Free heaps block by block
     CASCADE_RESULT(auto backing_blocks, vm_manager.GetBackingBlocksForRange(target, size));
-    for (const auto& [backing_memory, block_size] : backing_blocks) {
-        memory_region->Free(kernel.memory.GetFCRAMOffset(backing_memory.GetPtr()), block_size);
+    for (const auto& backing_block : backing_blocks) {
+        memory_region->Free(backing_block.lower(), backing_block.upper() - backing_block.lower());
     }
 
     ResultCode result = vm_manager.UnmapRange(target, size);
     ASSERT(result.IsSuccess());
 
+    holding_memory -= backing_blocks;
     memory_used -= size;
     resource_limit->current_commit -= size;
 
@@ -340,6 +353,7 @@ ResultVal<VAddr> Process::LinearAllocate(VAddr target, u32 size, VMAPermission p
     ASSERT(vma.Succeeded());
     vm_manager.Reprotect(vma.Unwrap(), perms);
 
+    holding_memory += MemoryRegionInfo::Interval(physical_offset, physical_offset + size);
     memory_used += size;
     resource_limit->current_commit += size;
 
@@ -365,11 +379,12 @@ ResultCode Process::LinearFree(VAddr target, u32 size) {
         return result;
     }
 
-    memory_used -= size;
-    resource_limit->current_commit -= size;
-
     u32 physical_offset = target - GetLinearHeapAreaAddress(); // relative to FCRAM
     memory_region->Free(physical_offset, size);
+
+    holding_memory -= MemoryRegionInfo::Interval(physical_offset, physical_offset + size);
+    memory_used -= size;
+    resource_limit->current_commit -= size;
 
     return RESULT_SUCCESS;
 }
@@ -419,7 +434,9 @@ ResultCode Process::Map(VAddr target, VAddr source, u32 size, VMAPermission perm
 
     CASCADE_RESULT(auto backing_blocks, vm_manager.GetBackingBlocksForRange(source, size));
     VAddr interval_target = target;
-    for (const auto& [backing_memory, block_size] : backing_blocks) {
+    for (const auto& backing_block : backing_blocks) {
+        auto backing_memory = kernel.memory.GetFCRAMRef(backing_block.lower());
+        auto block_size = backing_block.upper() - backing_block.lower();
         auto target_vma =
             vm_manager.MapBackingMemory(interval_target, backing_memory, block_size, target_state);
         ASSERT(target_vma.Succeeded());
@@ -471,6 +488,30 @@ ResultCode Process::Unmap(VAddr target, VAddr source, u32 size, VMAPermission pe
     return RESULT_SUCCESS;
 }
 
+void Process::FreeAllMemory() {
+    if (memory_region == nullptr || resource_limit == nullptr) {
+        return;
+    }
+
+    // Free any heap/linear memory allocations.
+    for (auto& entry : holding_memory) {
+        LOG_DEBUG(Kernel, "Freeing process memory region 0x{:08X} - 0x{:08X}", entry.lower(),
+                  entry.upper());
+        auto size = entry.upper() - entry.lower();
+        memory_region->Free(entry.lower(), size);
+        memory_used -= size;
+        resource_limit->current_commit -= size;
+    }
+    holding_memory.clear();
+
+    // Diagnostics for debugging.
+    // TODO: The way shared memory and TLS pages are allocated can result in very slight leaks in
+    // these values still.
+    LOG_DEBUG(Kernel, "Remaining memory used after process cleanup: 0x{:08X}", memory_used);
+    LOG_DEBUG(Kernel, "Remaining memory resource commit after process cleanup: 0x{:08X}",
+              resource_limit->current_commit);
+}
+
 Kernel::Process::Process(KernelSystem& kernel)
     : Object(kernel), handle_table(kernel), vm_manager(kernel.memory, *this), kernel(kernel) {
     kernel.memory.RegisterPageTable(vm_manager.page_table);
@@ -484,6 +525,7 @@ Kernel::Process::~Process() {
     // memory etc.) even if they are still referenced by other processes.
     handle_table.Clear();
 
+    FreeAllMemory();
     kernel.memory.UnregisterPageTable(vm_manager.page_table);
 }
 
