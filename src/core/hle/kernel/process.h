@@ -217,6 +217,7 @@ public:
     u32 memory_used = 0;
 
     std::shared_ptr<MemoryRegionInfo> memory_region = nullptr;
+    MemoryRegionInfo::IntervalSet holding_memory;
 
     /// The Thread Local Storage area is allocated as processes create threads,
     /// each TLS area is 0x200 bytes, so one page (0x1000) is split up in 8 parts, and each part
@@ -243,6 +244,8 @@ public:
                      bool privileged = false);
 
 private:
+    void FreeAllMemory();
+
     KernelSystem& kernel;
 
     friend class boost::serialization::access;
