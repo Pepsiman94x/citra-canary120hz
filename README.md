@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`ad483f60c`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6674](https://github.com/citra-emu/citra//pull/6674) | [`3444f3f34`](https://github.com/citra-emu/citra//pull/6674/files) | core: Cleanup RPC | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6680](https://github.com/citra-emu/citra//pull/6680) | [`de4e910a5`](https://github.com/citra-emu/citra//pull/6680/files) | kernel: Improvements to process cleanup. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6684](https://github.com/citra-emu/citra//pull/6684) | [`c771c8695`](https://github.com/citra-emu/citra//pull/6684/files) | audio_core/hle: Stub binary requests SaveState and LoadState. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6690](https://github.com/citra-emu/citra//pull/6690) | [`d7b23e361`](https://github.com/citra-emu/citra//pull/6690/files) | y2r: Pass ConversionConfiguration by copying. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6691](https://github.com/citra-emu/citra//pull/6691) | [`d6dcf3b89`](https://github.com/citra-emu/citra//pull/6691/files) | qt: Fix per-game config loading for 3DSX/ELF. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6693](https://github.com/citra-emu/citra//pull/6693) | [`40add3091`](https://github.com/citra-emu/citra//pull/6693/files) | android: Restore notification permission request | [t895](https://github.com/t895/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
