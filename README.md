@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6678](https://github.com/citra-emu/citra//pull/6678) | [`e6da50e79`](https://github.com/citra-emu/citra//pull/6678/files) | hle: Eliminate need to specify command headers for IPC. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6680](https://github.com/citra-emu/citra//pull/6680) | [`de4e910a5`](https://github.com/citra-emu/citra//pull/6680/files) | kernel: Improvements to process cleanup. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6684](https://github.com/citra-emu/citra//pull/6684) | [`c771c8695`](https://github.com/citra-emu/citra//pull/6684/files) | audio_core/hle: Stub binary requests SaveState and LoadState. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6690](https://github.com/citra-emu/citra//pull/6690) | [`d7b23e361`](https://github.com/citra-emu/citra//pull/6690/files) | y2r: Pass ConversionConfiguration by copying. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
