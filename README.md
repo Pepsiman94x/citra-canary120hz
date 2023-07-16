@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6680](https://github.com/citra-emu/citra//pull/6680) | [`de4e910a5`](https://github.com/citra-emu/citra//pull/6680/files) | kernel: Improvements to process cleanup. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6684](https://github.com/citra-emu/citra//pull/6684) | [`c771c8695`](https://github.com/citra-emu/citra//pull/6684/files) | audio_core/hle: Stub binary requests SaveState and LoadState. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6697](https://github.com/citra-emu/citra//pull/6697) | [`c8aeb7e4b`](https://github.com/citra-emu/citra//pull/6697/files) | rasterizer_cache: Fixes to (unaligned) texture downloads | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6698](https://github.com/citra-emu/citra//pull/6698) | [`531d28046`](https://github.com/citra-emu/citra//pull/6698/files) | renderer_software: Multi-thread processing | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
