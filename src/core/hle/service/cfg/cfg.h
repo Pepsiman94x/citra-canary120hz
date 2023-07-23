@@ -22,6 +22,74 @@ class System;
 
 namespace Service::CFG {
 
+enum ConfigBlockID {
+    ConfigSavegameVersionBlockID = 0x00000000, // Maybe?
+    RtcCompensationBlockID = 0x00010000,
+    AudioCalibrationBlockID = 0x00020000,
+    LeapYearCounterBlockID = 0x00030000,
+    UserTimeOffsetBlockID = 0x00030001,
+    SettingsTimeOffsetBlockID = 0x00030002,
+    TouchCalibrationBlockID = 0x00040000,
+    AnalogStickCalibrationBlockID = 0x00040001, // Maybe?
+    GyroscopeCalibrationBlockID = 0x00040002,
+    AccelerometerCalibrationBlockID = 0x00040003,
+    CStickCalibrationBlockID = 0x00040004,
+    ScreenFlickerCalibrationBlockID = 0x00050000,
+    BacklightControlsBlockID = 0x00050001,
+    BacklightPwmCalibrationBlockID = 0x00050002,
+    PowerSavingModeCalibrationBlockID = 0x00050003,
+    PowerSavingModeCalibrationLegacyBlockID = 0x00050004,
+    StereoCameraSettingsBlockID = 0x00050005,
+    _3dSwitchingDelayBlockID = 0x00050006,
+    Unknown_0x00050007 = 0x00050007,
+    PowerSavingModeExtraConfigBlockID = 0x00050008,
+    BacklightControlNew3dsBlockID = 0x00050009,
+    Unknown_0x00060000 = 0x00060000,
+    _3dFiltersBlockID = 0x00070000,
+    SoundOutputModeBlockID = 0x00070001,
+    MicrophoneEchoCancellationBlockID = 0x00070002,
+    WifiConfigurationSlot0BlockID = 0x00080000,
+    WifiConfigurationSlot1BlockID = 0x00080001,
+    WifiConfigurationSlot2BlockID = 0x00080002,
+    ConsoleUniqueID1BlockID = 0x00090000,
+    ConsoleUniqueID2BlockID = 0x00090001,
+    ConsoleUniqueID3BlockID = 0x00090002,
+    UsernameBlockID = 0x000A0000,
+    BirthdayBlockID = 0x000A0001,
+    LanguageBlockID = 0x000A0002,
+    CountryInfoBlockID = 0x000B0000,
+    CountryNameBlockID = 0x000B0001,
+    StateNameBlockID = 0x000B0002,
+    LatitudeLongitudeBlockID = 0x000B0003,
+    RestrictedPhotoExchangeBlockID = 0x000C0000,
+    CoppacsRestrictionBlockID = 0x000C0001,
+    ParentalRestrictionEmailBlockID = 0x000C0002,
+    EULAVersionBlockID = 0x000D0000,
+    Unknown_0x000E0000 = 0x000E0000,
+    DebugConfigurationBlockID = 0x000F0000,
+    Unknown_0x000F0001 = 0x000F0001,
+    Unknown_0x000F0003 = 0x000F0003,
+    ConsoleModelBlockID = 0x000F0004,
+    NetworkUpdatesEnabledBlockID = 0x000F0005,
+    XDeviceTokenBlockID = 0x000F0006,
+    TwlEulaInfoBlockID = 0x00100000,
+    TwlParentalRestrictionsBlockID = 0x00100001,
+    TwlCountryCodeBlockID = 0x00100002,
+    TwlMovableUniqueBlockIDBlockID = 0x00100003,
+    SystemSetupRequiredBlockID = 0x00110000,
+    LaunchMenuBlockID = 0x00110001,
+    VolumeSliderBoundsBlockID = 0x00120000,
+    DebugModeBlockID = 0x00130000,
+    ClockSequenceBlockID = 0x00150000,
+    Unknown_0x00150001 = 0x00150001,
+    NpnsUrlID = 0x00150002, // Maybe? 3dbrew documentation is weirdly written.
+    Unknown_0x00160000 = 0x00160000,
+    MiiverseAccessKeyBlockID = 0x00170000,
+    QtmInfraredLedRelatedBlockID = 0x00180000,
+    QtmCalibrationDataBlockID = 0x00180001,
+    Unknown_0x00190000 = 0x00190000,
+};
+
 enum SystemModel {
     NINTENDO_3DS = 0,
     NINTENDO_3DS_XL = 1,
@@ -51,7 +119,49 @@ enum SoundOutputMode { SOUND_MONO = 0, SOUND_STEREO = 1, SOUND_SURROUND = 2 };
 struct EULAVersion {
     u8 minor;
     u8 major;
+    INSERT_PADDING_BYTES(2);
 };
+static_assert(sizeof(EULAVersion) == 4, "EULAVersion must be exactly 0x4 bytes");
+
+struct UsernameBlock {
+    char16_t username[10]; ///< Exactly 20 bytes long, padded with zeros at the end if necessary
+    u32 zero;
+    u32 ng_word;
+};
+static_assert(sizeof(UsernameBlock) == 0x1C, "UsernameBlock must be exactly 0x1C bytes");
+
+struct BirthdayBlock {
+    u8 month; ///< The month of the birthday
+    u8 day;   ///< The day of the birthday
+};
+static_assert(sizeof(BirthdayBlock) == 2, "BirthdayBlock must be exactly 2 bytes");
+
+struct ConsoleModelInfo {
+    u8 model;      ///< The console model (3DS, 2DS, etc)
+    u8 unknown[3]; ///< Unknown data
+};
+static_assert(sizeof(ConsoleModelInfo) == 4, "ConsoleModelInfo must be exactly 4 bytes");
+
+struct ConsoleCountryInfo {
+    u8 unknown[2];   ///< Unknown data
+    u8 state_code;   ///< The state or province code.
+    u8 country_code; ///< The country code of the console
+};
+static_assert(sizeof(ConsoleCountryInfo) == 4, "ConsoleCountryInfo must be exactly 4 bytes");
+
+struct BacklightControls {
+    u8 power_saving_enabled; ///< Whether power saving mode is enabled.
+    u8 brightness_level;     ///< The configured brightness level.
+};
+static_assert(sizeof(BacklightControls) == 2, "BacklightControls must be exactly 2 bytes");
+
+struct New3dsBacklightControls {
+    u8 unknown_1[4];            ///< Unknown data
+    u8 auto_brightness_enabled; ///< Whether auto brightness is enabled.
+    u8 unknown_2[3];            ///< Unknown data
+};
+static_assert(sizeof(New3dsBacklightControls) == 8,
+              "New3dsBacklightControls must be exactly 8 bytes");
 
 /// Access control flags for config blocks
 enum class AccessFlag : u16 {
@@ -64,15 +174,6 @@ enum class AccessFlag : u16 {
     Global = UserRead | SystemRead | SystemWrite,
 };
 DECLARE_ENUM_FLAG_OPERATORS(AccessFlag);
-
-/// Block header in the config savedata file
-struct SaveConfigBlockEntry {
-    u32 block_id;       ///< The id of the current block
-    u32 offset_or_data; ///< This is the absolute offset to the block data if the size is greater
-                        /// than 4 bytes, otherwise it contains the data itself
-    u16 size;           ///< The size of the block
-    AccessFlag access_flags; ///< The access control flags of the block
-};
 
 static constexpr u16 C(const char code[2]) {
     return code[0] | (code[1] << 8);
