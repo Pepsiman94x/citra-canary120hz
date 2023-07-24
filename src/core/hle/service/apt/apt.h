@@ -818,27 +818,27 @@ public:
         void GetStartupArgument(Kernel::HLERequestContext& ctx);
 
         /**
-         * APT::SetScreenCapPostPermission service function
+         * APT::SetScreenCapturePostPermission service function
          *  Inputs:
          *      0 : Header Code[0x00550040]
          *      1 : u8 The screenshot posting permission
          *  Outputs:
          *      1 : Result of function, 0 on success, otherwise error code
          */
-        void SetScreenCapPostPermission(Kernel::HLERequestContext& ctx);
+        void SetScreenCapturePostPermission(Kernel::HLERequestContext& ctx);
 
         /**
-         * APT::GetScreenCapPostPermission service function
+         * APT::GetScreenCapturePostPermission service function
          *  Inputs:
          *      0 : Header Code[0x00560000]
          *  Outputs:
          *      1 : Result of function, 0 on success, otherwise error code
          *      2 : u8 The screenshot posting permission
          */
-        void GetScreenCapPostPermission(Kernel::HLERequestContext& ctx);
+        void GetScreenCapturePostPermission(Kernel::HLERequestContext& ctx);
 
         /**
-         * APT::CheckNew3DSApp service function
+         * APT::GetTargetPlatform service function
          *  Outputs:
          *      1: Result code, 0 on success, otherwise error code
          *      2: u8 output: 0 = Old3DS, 1 = New3DS.
@@ -849,7 +849,7 @@ public:
          *  Normally this NS state field is zero, however this state field is set to 1
          *  when APT:PrepareToStartApplication is used with flags bit8 is set.
          */
-        void CheckNew3DSApp(Kernel::HLERequestContext& ctx);
+        void GetTargetPlatform(Kernel::HLERequestContext& ctx);
 
         /**
          * Wrapper for PTMSYSM:CheckNew3DS
@@ -861,12 +861,20 @@ public:
         void CheckNew3DS(Kernel::HLERequestContext& ctx);
 
         /**
-         * APT::Unknown0x0103 service function. Determines whether Smash 4 allows C-Stick
+         * APT::GetApplicationRunningMode service function
          *  Outputs:
          *      1: Result code, 0 on success otherwise error code
-         *      2: u8 output: 2 = New3DS+valid/initialized (in Smash 4), 1 = Old3DS or invalid
+         *      2: u8 output: 0 = No application, 1/3 = Old 3DS, 2/4 = New 3DS
          */
-        void Unknown0x0103(Kernel::HLERequestContext& ctx);
+        void GetApplicationRunningMode(Kernel::HLERequestContext& ctx);
+
+        /**
+         * APT::IsStandardMemoryLayout service function
+         *  Outputs:
+         *      1: Result code, 0 on success otherwise error code
+         *      2: bool output: Whether the system is in its standard memory layout.
+         */
+        void IsStandardMemoryLayout(Kernel::HLERequestContext& ctx);
 
         /**
          * APT::IsTitleAllowed service function
@@ -907,7 +915,7 @@ private:
     u32 cpu_percent = 0; ///< CPU time available to the running application
 
     // APT::CheckNew3DSApp will check this unknown_ns_state_field to determine processing mode
-    u8 unknown_ns_state_field = 0;
+    u8 new_3ds_mode_blocked = 0;
 
     std::array<u8, SysMenuArgSize> sys_menu_arg_buffer;
 

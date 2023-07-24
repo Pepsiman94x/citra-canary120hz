@@ -99,6 +99,14 @@ enum class AppletId : u32 {
     Memolib2 = 0x409,
 };
 
+enum class ApplicationRunningMode : u8 {
+    NoApplication = 0,
+    Old3dsRegistered = 1,
+    New3dsRegistered = 2,
+    Old3dsUnregistered = 3,
+    New3dsUnregistered = 4,
+};
+
 /// Holds information about the parameters used in Send/Glance/ReceiveParameter
 struct MessageParameter {
     AppletId sender_id = AppletId::None;
@@ -348,6 +356,8 @@ public:
     ApplicationJumpParameters GetApplicationJumpParameters() const {
         return app_jump_parameters;
     }
+
+    ResultVal<ApplicationRunningMode> GetApplicationRunningMode();
 
 private:
     /// APT lock retrieved via GetLockHandle.

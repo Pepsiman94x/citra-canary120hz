@@ -41,7 +41,7 @@ void Module::serialize(Archive& ar, const unsigned int file_version) {
     ar& shared_font_loaded;
     ar& shared_font_relocated;
     ar& cpu_percent;
-    ar& unknown_ns_state_field;
+    ar& new_3ds_mode_blocked;
     ar& screen_capture_post_permission;
     ar& applet_manager;
     if (file_version > 0) {
@@ -972,7 +972,7 @@ void Module::APTInterface::GetCaptureInfo(Kernel::HLERequestContext& ctx) {
     rb.PushStaticBuffer(std::move(screen_capture_buffer), 0);
 }
 
-void Module::APTInterface::SetScreenCapPostPermission(Kernel::HLERequestContext& ctx) {
+void Module::APTInterface::SetScreenCapturePostPermission(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
     LOG_DEBUG(Service_APT, "called, screen_capture_post_permission={}",
@@ -984,7 +984,7 @@ void Module::APTInterface::SetScreenCapPostPermission(Kernel::HLERequestContext&
     rb.Push(RESULT_SUCCESS); // No error
 }
 
-void Module::APTInterface::GetScreenCapPostPermission(Kernel::HLERequestContext& ctx) {
+void Module::APTInterface::GetScreenCapturePostPermission(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
     LOG_DEBUG(Service_APT, "(STUBBED) called, screen_capture_post_permission={}",
@@ -1154,15 +1154,15 @@ void Module::APTInterface::Unwrap(Kernel::HLERequestContext& ctx) {
     rb.PushMappedBuffer(output);
 }
 
-void Module::APTInterface::CheckNew3DSApp(Kernel::HLERequestContext& ctx) {
+void Module::APTInterface::GetTargetPlatform(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
-    LOG_WARNING(Service_APT, "(STUBBED) called");
+    LOG_DEBUG(Service_APT, "called");
 
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
-    if (apt->unknown_ns_state_field) {
+    if (apt->new_3ds_mode_blocked) {
         rb.Push(RESULT_SUCCESS);
-        rb.Push<u32>(0);
+        rb.Push<bool>(false);
     } else {
         PTM::CheckNew3DS(rb);
     }
@@ -1170,21 +1170,47 @@ void Module::APTInterface::CheckNew3DSApp(Kernel::HLERequestContext& ctx) {
 
 void Module::APTInterface::CheckNew3DS(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
+
+    LOG_DEBUG(Service_APT, "called");
+
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
-
-    LOG_WARNING(Service_APT, "(STUBBED) called");
-
     PTM::CheckNew3DS(rb);
 }
 
-void Module::APTInterface::Unknown0x0103(Kernel::HLERequestContext& ctx) {
+void Module::APTInterface::GetApplicationRunningMode(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
+
+    LOG_DEBUG(Service_APT, "called");
+
+    auto info = apt->applet_manager->GetApplicationRunningMode();
+    if (info.Failed()) {
+        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+        rb.Push(info.Code());
+    } else {
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.PushEnum(info.Unwrap());
+    }
+}
+
+void Module::APTInterface::IsStandardMemoryLayout(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    LOG_DEBUG(Service_APT, "called");
+
+    bool standard;
+    if (Settings::values.is_new_3ds) {
+        // Memory layout is standard if it is not NewDev1 (178MB)
+        standard = apt->system.Kernel().GetNew3dsHwCapabilities().memory_mode !=
+                   Kernel::New3dsMemoryMode::NewDev1;
+    } else {
+        // Memory layout is standard if it is Prod (64MB)
+        standard = apt->system.Kernel().GetMemoryMode() == Kernel::MemoryMode::Prod;
+    }
+
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
-
-    LOG_WARNING(Service_APT, "(STUBBED) called");
-
     rb.Push(RESULT_SUCCESS);
-    rb.Push<u8>(Settings::values.is_new_3ds ? 2 : 1);
+    rb.Push(standard);
 }
 
 void Module::APTInterface::IsTitleAllowed(Kernel::HLERequestContext& ctx) {

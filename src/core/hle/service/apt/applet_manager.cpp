@@ -976,6 +976,25 @@ ResultVal<AppletManager::AppletInfo> AppletManager::GetAppletInfo(AppletId app_i
     };
 }
 
+ResultVal<ApplicationRunningMode> AppletManager::GetApplicationRunningMode() {
+    auto slot_data = GetAppletSlot(AppletSlot::Application);
+    if (slot_data->applet_id == AppletId::None) {
+        return ApplicationRunningMode::NoApplication;
+    }
+
+    // APT checks whether the system is a New 3DS and the 804MHz CPU speed is enabled to determine
+    // the result.
+    auto new_3ds_mode =
+        Settings::values.is_new_3ds && system.Kernel().GetNew3dsHwCapabilities().enable_804MHz_cpu;
+    if (slot_data->registered) {
+        return new_3ds_mode ? ApplicationRunningMode::New3dsRegistered
+                            : ApplicationRunningMode::Old3dsRegistered;
+    } else {
+        return new_3ds_mode ? ApplicationRunningMode::New3dsUnregistered
+                            : ApplicationRunningMode::Old3dsUnregistered;
+    }
+}
+
 ResultCode AppletManager::PrepareToDoApplicationJump(u64 title_id, FS::MediaType media_type,
                                                      ApplicationJumpFlags flags) {
     // A running application can not launch another application directly because the applet state
