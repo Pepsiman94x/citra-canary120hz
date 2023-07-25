@@ -68,6 +68,10 @@ public:
         ResetStorageBit(id.index);
     }
 
+    size_t size() const noexcept {
+        return values_capacity - free_list.size();
+    }
+
 private:
     struct NonTrivialDummy {
         NonTrivialDummy() noexcept {}

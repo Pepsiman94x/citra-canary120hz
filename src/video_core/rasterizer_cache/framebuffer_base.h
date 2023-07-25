@@ -5,6 +5,7 @@
 #pragma once
 
 #include "common/math_util.h"
+#include "video_core/rasterizer_cache/slot_id.h"
 #include "video_core/rasterizer_cache/surface_params.h"
 
 namespace Pica {
@@ -21,6 +22,17 @@ struct ViewportInfo {
     s32 width;
     s32 height;
 };
+
+struct FramebufferParams {
+    SurfaceId color_id;
+    SurfaceId depth_id;
+    u32 color_level;
+    u32 depth_level;
+    bool shadow_rendering;
+    INSERT_PADDING_BYTES(3);
+};
+static_assert(std::has_unique_object_representations_v<FramebufferParams>,
+              "FramebufferParams is not suitable for hashing");
 
 /**
  * A framebuffer is a lightweight abstraction over a pair of surfaces and provides

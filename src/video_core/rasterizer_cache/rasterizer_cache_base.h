@@ -5,11 +5,13 @@
 #pragma once
 
 #include <functional>
+#include <list>
 #include <optional>
 #include <unordered_map>
 #include <vector>
 #include <boost/icl/interval_map.hpp>
 #include <tsl/robin_map.h>
+#include "video_core/rasterizer_cache/framebuffer_base.h"
 #include "video_core/rasterizer_cache/sampler_params.h"
 #include "video_core/rasterizer_cache/surface_params.h"
 #include "video_core/rasterizer_cache/texture_cube.h"
@@ -38,9 +40,8 @@ enum class MatchFlags {
     Exact = 1 << 0,       ///< Surface perfectly matches params
     SubRect = 1 << 1,     ///< Surface encompasses params
     Copy = 1 << 2,        ///< Surface that can be used as a copy source
-    Expand = 1 << 3,      ///< Surface that can expand params
-    TexCopy = 1 << 4,     ///< Surface that will match a display transfer "texture copy" parameters
-    Reinterpret = 1 << 5, ///< Surface might have different pixel format.
+    TexCopy = 1 << 3,     ///< Surface that will match a display transfer "texture copy" parameters
+    Reinterpret = 1 << 4, ///< Surface might have different pixel format.
 };
 
 DECLARE_ENUM_FLAG_OPERATORS(MatchFlags);
@@ -65,11 +66,6 @@ class RasterizerCache {
 
     using SurfaceRect_Tuple = std::pair<SurfaceId, Common::Rectangle<u32>>;
     using PageMap = boost::icl::interval_map<u32, int>;
-
-    struct RenderTargets {
-        SurfaceId color_id;
-        SurfaceId depth_id;
-    };
 
 public:
     explicit RasterizerCache(Memory::MemorySystem& memory, CustomTexManager& custom_tex_manager,
@@ -161,6 +157,9 @@ private:
     SurfaceId FindMatch(const SurfaceParams& params, ScaleMatch match_scale_type,
                         std::optional<SurfaceInterval> validate_interval = std::nullopt);
 
+    /// Unregisters sentenced surfaces that have surpassed the destruction threshold.
+    void RunGarbageCollector();
+
     /// Transfers ownership of a memory region from src_surface to dest_surface
     void DuplicateSurface(SurfaceId src_id, SurfaceId dst_id);
 
@@ -210,13 +209,15 @@ private:
     std::unordered_map<TextureCubeConfig, TextureCube> texture_cube_cache;
     tsl::robin_pg_map<u64, std::vector<SurfaceId>, Common::IdentityHash<u64>> page_table;
     std::unordered_map<SamplerParams, SamplerId> samplers;
+    std::list<std::pair<SurfaceId, u64>> sentenced;
     Common::SlotVector<Surface> slot_surfaces;
     Common::SlotVector<Sampler> slot_samplers;
     SurfaceMap dirty_regions;
     PageMap cached_pages;
     std::vector<SurfaceId> remove_surfaces;
     u32 resolution_scale_factor;
-    RenderTargets render_targets;
+    u64 frame_tick{};
+    FramebufferParams fb_params;
     bool use_filter;
     bool dump_textures;
     bool use_custom_textures;

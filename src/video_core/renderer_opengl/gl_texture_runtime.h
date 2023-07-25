@@ -27,46 +27,6 @@ struct FormatTuple {
     }
 };
 
-struct HostTextureTag {
-    u32 width;
-    u32 height;
-    u32 levels;
-    u32 res_scale;
-    FormatTuple tuple;
-    VideoCore::TextureType type;
-    bool is_custom;
-    bool has_normal;
-
-    bool operator==(const HostTextureTag& other) const noexcept {
-        return std::tie(tuple, type, width, height, levels, res_scale, is_custom, has_normal) ==
-               std::tie(other.tuple, other.type, other.width, other.height, other.levels,
-                        other.res_scale, other.is_custom, other.has_normal);
-    }
-
-    struct Hash {
-        const u64 operator()(const HostTextureTag& tag) const {
-            return Common::ComputeHash64(&tag, sizeof(HostTextureTag));
-        }
-    };
-};
-static_assert(std::has_unique_object_representations_v<HostTextureTag>,
-              "HostTextureTag is not suitable for hashing!");
-
-struct Allocation {
-    std::array<OGLTexture, 3> textures;
-    std::array<GLuint, 3> handles;
-    FormatTuple tuple;
-    u32 width;
-    u32 height;
-    u32 levels;
-    u32 res_scale;
-    bool is_custom;
-
-    operator bool() const noexcept {
-        return textures[0].handle;
-    }
-};
-
 class Surface;
 class Driver;
 
@@ -111,13 +71,6 @@ public:
     void GenerateMipmaps(Surface& surface);
 
 private:
-    /// Takes back ownership of the allocation for recycling
-    void Recycle(const HostTextureTag tag, Allocation&& alloc);
-
-    /// Allocates a texture with the specified dimentions and format
-    Allocation Allocate(const VideoCore::SurfaceParams& params,
-                        const VideoCore::Material* material = nullptr);
-
     /// Returns the OpenGL driver class
     const Driver& GetDriver() const {
         return driver;
@@ -127,7 +80,6 @@ private:
     const Driver& driver;
     BlitHelper blit_helper;
     std::vector<u8> staging_buffer;
-    std::unordered_multimap<HostTextureTag, Allocation, HostTextureTag::Hash> alloc_cache;
     std::unordered_map<u64, OGLFramebuffer, Common::IdentityHash<u64>> framebuffer_cache;
     std::array<OGLFramebuffer, 3> draw_fbos;
     std::array<OGLFramebuffer, 3> read_fbos;
@@ -144,13 +96,15 @@ public:
     Surface(Surface&& o) noexcept = default;
     Surface& operator=(Surface&& o) noexcept = default;
 
-    [[nodiscard]] GLuint Handle(u32 index = 1) const noexcept {
-        return alloc.handles[index];
+    [[nodiscard]] const FormatTuple& Tuple() const noexcept {
+        return tuple;
     }
 
-    [[nodiscard]] const FormatTuple& Tuple() const noexcept {
-        return alloc.tuple;
-    }
+    /// Returns the texture handle at index, otherwise the first one if not valid.
+    GLuint Handle(u32 index = 1) const noexcept;
+
+    /// Returns a copy of the upscaled texture handle, used for feedback loops.
+    GLuint CopyHandle() noexcept;
 
     /// Uploads pixel data in staging to a rectangle region of the surface texture
     void Upload(const VideoCore::BufferTextureCopy& upload, const VideoCore::StagingData& staging);
@@ -164,6 +118,9 @@ public:
 
     /// Attaches a handle of surface to the specified framebuffer target
     void Attach(GLenum target, u32 level, u32 layer, bool scaled = true);
+
+    /// Scales up the surface to match the new resolution scale.
+    void ScaleUp(u32 new_scale);
 
     /// Swaps the internal allocation to match the provided material
     bool Swap(const VideoCore::Material* material);
@@ -179,19 +136,18 @@ private:
     bool DownloadWithoutFbo(const VideoCore::BufferTextureCopy& download,
                             const VideoCore::StagingData& staging);
 
-    /// Returns the texture tag of the current allocation
-    HostTextureTag MakeTag() const noexcept;
-
 private:
     const Driver* driver;
     TextureRuntime* runtime;
-    Allocation alloc{};
+    std::array<OGLTexture, 3> textures;
+    OGLTexture copy_texture;
+    FormatTuple tuple;
 };
 
 class Framebuffer : public VideoCore::FramebufferBase {
 public:
-    explicit Framebuffer(TextureRuntime& runtime, const Surface* color, u32 color_level,
-                         const Surface* depth_stencil, u32 depth_level, const Pica::Regs& regs,
+    explicit Framebuffer(TextureRuntime& runtime, const VideoCore::FramebufferParams params,
+                         const Pica::Regs& regs, const Surface* color, const Surface* depth_stencil,
                          Common::Rectangle<u32> surfaces_rect);
     ~Framebuffer();
 

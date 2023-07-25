@@ -611,19 +611,7 @@ bool RasterizerOpenGL::IsFeedbackLoop(u32 texture_index, const Framebuffer& fram
         return false;
     }
 
-    // Make a temporary copy of the framebuffer to sample from
-    Surface temp_surface{runtime, framebuffer.ColorParams()};
-    const VideoCore::TextureCopy copy = {
-        .src_level = 0,
-        .dst_level = 0,
-        .src_layer = 0,
-        .dst_layer = 0,
-        .src_offset = {0, 0},
-        .dst_offset = {0, 0},
-        .extent = {temp_surface.GetScaledWidth(), temp_surface.GetScaledHeight()},
-    };
-    runtime.CopyTextures(surface, temp_surface, copy);
-    state.texture_units[texture_index].texture_2d = temp_surface.Handle();
+    state.texture_units[texture_index].texture_2d = surface.CopyHandle();
     return true;
 }
 
