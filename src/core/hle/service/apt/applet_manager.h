@@ -99,6 +99,14 @@ enum class AppletId : u32 {
     Memolib2 = 0x409,
 };
 
+enum class ApplicationRunningMode : u8 {
+    NoApplication = 0,
+    Old3dsRegistered = 1,
+    New3dsRegistered = 2,
+    Old3dsUnregistered = 3,
+    New3dsUnregistered = 4,
+};
+
 /// Holds information about the parameters used in Send/Glance/ReceiveParameter
 struct MessageParameter {
     AppletId sender_id = AppletId::None;
@@ -256,10 +264,14 @@ public:
     ResultVal<InitializeResult> Initialize(AppletId app_id, AppletAttributes attributes);
 
     ResultCode Enable(AppletAttributes attributes);
+    ResultCode Finalize(AppletId app_id);
+    u32 CountRegisteredApplet();
     bool IsRegistered(AppletId app_id);
+    ResultVal<AppletAttributes> GetAttribute(AppletId app_id);
 
     ResultVal<Notification> InquireNotification(AppletId app_id);
     ResultCode SendNotification(Notification notification);
+    void SendNotificationToAll(Notification notification);
 
     ResultCode PrepareToStartLibraryApplet(AppletId applet_id);
     ResultCode PreloadLibraryApplet(AppletId applet_id);
@@ -270,6 +282,9 @@ public:
     ResultCode CloseLibraryApplet(std::shared_ptr<Kernel::Object> object,
                                   const std::vector<u8>& buffer);
     ResultCode CancelLibraryApplet(bool app_exiting);
+
+    ResultCode SendDspSleep(AppletId from_applet_id, std::shared_ptr<Kernel::Object> object);
+    ResultCode SendDspWakeUp(AppletId from_applet_id, std::shared_ptr<Kernel::Object> object);
 
     ResultCode PrepareToStartSystemApplet(AppletId applet_id);
     ResultCode StartSystemApplet(AppletId applet_id, std::shared_ptr<Kernel::Object> object,
@@ -294,8 +309,10 @@ public:
                                           ApplicationJumpFlags flags);
     ResultCode DoApplicationJump(const DeliverArg& arg);
 
-    boost::optional<DeliverArg> ReceiveDeliverArg() const {
-        return deliver_arg;
+    boost::optional<DeliverArg> ReceiveDeliverArg() {
+        auto arg = deliver_arg;
+        deliver_arg = boost::none;
+        return arg;
     }
     void SetDeliverArg(boost::optional<DeliverArg> arg) {
         deliver_arg = std::move(arg);
@@ -324,7 +341,8 @@ public:
     ResultCode PrepareToStartApplication(u64 title_id, FS::MediaType media_type);
     ResultCode StartApplication(const std::vector<u8>& parameter, const std::vector<u8>& hmac,
                                 bool paused);
-    ResultCode WakeupApplication();
+    ResultCode WakeupApplication(std::shared_ptr<Kernel::Object> object,
+                                 const std::vector<u8>& buffer);
     ResultCode CancelApplication();
 
     struct AppletManInfo {
@@ -348,6 +366,9 @@ public:
     ApplicationJumpParameters GetApplicationJumpParameters() const {
         return app_jump_parameters;
     }
+
+    ResultVal<Service::FS::MediaType> Unknown54(u32 in_param);
+    ResultVal<ApplicationRunningMode> GetApplicationRunningMode();
 
 private:
     /// APT lock retrieved via GetLockHandle.
@@ -427,10 +448,12 @@ private:
     bool application_cancelled = false;
     AppletSlot application_close_target = AppletSlot::Error;
 
-    Core::TimingEventType* home_button_update_event;
+    Core::TimingEventType* button_update_event;
     std::atomic<bool> is_device_reload_pending{true};
     std::unique_ptr<Input::ButtonDevice> home_button;
+    std::unique_ptr<Input::ButtonDevice> power_button;
     bool last_home_button_state = false;
+    bool last_power_button_state = false;
 
     Core::System& system;
 
@@ -455,7 +478,7 @@ private:
     void CaptureFrameBuffers();
 
     void LoadInputDevices();
-    void HomeButtonUpdateEvent(std::uintptr_t user_data, s64 cycles_late);
+    void ButtonUpdateEvent(std::uintptr_t user_data, s64 cycles_late);
 
     template <class Archive>
     void serialize(Archive& ar, const unsigned int file_version) {
