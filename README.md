@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`a2fd47796`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6698](https://github.com/citra-emu/citra//pull/6698) | [`8012b28b9`](https://github.com/citra-emu/citra//pull/6698/files) | renderer_software: Multi-thread processing | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6712](https://github.com/citra-emu/citra//pull/6712) | [`7170ff8be`](https://github.com/citra-emu/citra//pull/6712/files) | citra-qt: update the separate window titles to use full_name and show Primary/Secondary identifier | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6716](https://github.com/citra-emu/citra//pull/6716) | [`cbea63a9b`](https://github.com/citra-emu/citra//pull/6716/files) | service/cfg: Separate out config block defaults and create when not found. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6717](https://github.com/citra-emu/citra//pull/6717) | [`a0a796ff5`](https://github.com/citra-emu/citra//pull/6717/files) | hw/y2r: Templatize input/output formats. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6718](https://github.com/citra-emu/citra//pull/6718) | [`1b8b95daf`](https://github.com/citra-emu/citra//pull/6718/files) | service/am: Clean up and optimize CIA installation. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6721](https://github.com/citra-emu/citra//pull/6721) | [`22b1eed46`](https://github.com/citra-emu/citra//pull/6721/files) | service/apt: Add and implement more service commands. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
