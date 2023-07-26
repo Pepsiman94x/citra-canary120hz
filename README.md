@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`a2fd47796`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6698](https://github.com/citra-emu/citra//pull/6698) | [`8012b28b9`](https://github.com/citra-emu/citra//pull/6698/files) | renderer_software: Multi-thread processing | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6716](https://github.com/citra-emu/citra//pull/6716) | [`cbea63a9b`](https://github.com/citra-emu/citra//pull/6716/files) | service/cfg: Separate out config block defaults and create when not found. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6718](https://github.com/citra-emu/citra//pull/6718) | [`1b8b95daf`](https://github.com/citra-emu/citra//pull/6718/files) | service/am: Clean up and optimize CIA installation. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6719](https://github.com/citra-emu/citra//pull/6719) | [`c35220b98`](https://github.com/citra-emu/citra//pull/6719/files) | adts_reader.cpp: Use BitField to parse ADTS header | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6721](https://github.com/citra-emu/citra//pull/6721) | [`66fc7ccb4`](https://github.com/citra-emu/citra//pull/6721/files) | service/apt: Add and implement more service commands. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6821](https://github.com/citra-emu/citra//pull/6821) | [`f98a1df8e`](https://github.com/citra-emu/citra//pull/6821/files) | service/gsp: Implement saving of framebuffers in SaveVramSysArea. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
