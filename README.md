@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`a2fd47796`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6698](https://github.com/citra-emu/citra//pull/6698) | [`8012b28b9`](https://github.com/citra-emu/citra//pull/6698/files) | renderer_software: Multi-thread processing | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6705](https://github.com/citra-emu/citra//pull/6705) | [`807bcf2a3`](https://github.com/citra-emu/citra//pull/6705/files) | rasterizer_cache: Remove runtime allocation caching | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6718](https://github.com/citra-emu/citra//pull/6718) | [`1b8b95daf`](https://github.com/citra-emu/citra//pull/6718/files) | service/am: Clean up and optimize CIA installation. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6824](https://github.com/citra-emu/citra//pull/6824) | [`650078f70`](https://github.com/citra-emu/citra//pull/6824/files) | Move MiiData to its own namespace and add ChecksummedMiiData | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
