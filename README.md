@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`a2fd47796`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6646](https://github.com/citra-emu/citra//pull/6646) | [`0450c88fa`](https://github.com/citra-emu/citra//pull/6646/files) | ci: Re-enable macOS artifact upload. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6698](https://github.com/citra-emu/citra//pull/6698) | [`8012b28b9`](https://github.com/citra-emu/citra//pull/6698/files) | renderer_software: Multi-thread processing | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6828](https://github.com/citra-emu/citra//pull/6828) | [`78f9fa05d`](https://github.com/citra-emu/citra//pull/6828/files) | http/soc: Various implementations and fixes | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
