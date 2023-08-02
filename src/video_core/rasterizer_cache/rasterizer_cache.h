@@ -677,8 +677,8 @@ FramebufferHelper<T> RasterizerCache<T>::GetFramebufferSurfaces(bool using_color
         fb_rect = depth_rect;
     }
 
-    const Surface* color_surface = color_id ? &slot_surfaces[color_id] : nullptr;
-    const Surface* depth_surface = depth_id ? &slot_surfaces[depth_id] : nullptr;
+    Surface* color_surface = color_id ? &slot_surfaces[color_id] : nullptr;
+    Surface* depth_surface = depth_id ? &slot_surfaces[depth_id] : nullptr;
 
     if (color_id) {
         color_level = color_surface->LevelOf(color_params.addr);
@@ -691,7 +691,7 @@ FramebufferHelper<T> RasterizerCache<T>::GetFramebufferSurfaces(bool using_color
                         boost::icl::length(depth_vp_interval));
     }
 
-    fb_params = FramebufferParams{
+    const FramebufferParams fb_params = {
         .color_id = color_id,
         .depth_id = depth_id,
         .color_level = color_level,
@@ -1051,15 +1051,15 @@ bool RasterizerCache<T>::UploadCustomSurface(SurfaceId surface_id, SurfaceInterv
     surface.flags |= SurfaceFlagBits::Custom;
 
     const auto upload = [this, level, surface_id, material]() -> bool {
-        Surface& surface = slot_surfaces[surface_id];
-        ASSERT_MSG(True(surface.flags & SurfaceFlagBits::Custom),
+        ASSERT_MSG(True(slot_surfaces[surface_id].flags & SurfaceFlagBits::Custom),
                    "Surface is not suitable for custom upload, aborting!");
-        if (!surface.IsCustom()) {
-            const SurfaceBase old_surface{surface};
+        if (!slot_surfaces[surface_id].IsCustom()) {
+            const SurfaceBase old_surface{slot_surfaces[surface_id]};
             const SurfaceId old_id =
                 slot_surfaces.swap_and_insert(surface_id, runtime, old_surface, material);
             sentenced.emplace_back(old_id, frame_tick);
         }
+        Surface& surface = slot_surfaces[surface_id];
         surface.UploadCustom(material, level);
         if (custom_tex_manager.SkipMipmaps()) {
             runtime.GenerateMipmaps(surface);
