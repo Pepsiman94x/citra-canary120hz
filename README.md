@@ -1,3 +1,19 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6512](https://github.com/citra-emu/citra//pull/6512) | [`2b1d47bcb`](https://github.com/citra-emu/citra//pull/6512/files) | Add vulkan backend | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`a2fd47796`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6646](https://github.com/citra-emu/citra//pull/6646) | [`0450c88fa`](https://github.com/citra-emu/citra//pull/6646/files) | ci: Re-enable macOS artifact upload. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6698](https://github.com/citra-emu/citra//pull/6698) | [`8012b28b9`](https://github.com/citra-emu/citra//pull/6698/files) | renderer_software: Multi-thread processing | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6844](https://github.com/citra-emu/citra//pull/6844) | [`9e56ffb60`](https://github.com/citra-emu/citra//pull/6844/files) | shader_interpreter: Fix control flow edge cases and implement break/breakc  | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6850](https://github.com/citra-emu/citra//pull/6850) | [`a7e6497bb`](https://github.com/citra-emu/citra//pull/6850/files) | gl_texture_runtime: Implement ARB_clear_texture | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6851](https://github.com/citra-emu/citra//pull/6851) | [`bbd3b89dd`](https://github.com/citra-emu/citra//pull/6851/files) | rasterizer_cache: Allow custom recycle | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6855](https://github.com/citra-emu/citra//pull/6855) | [`c652b5535`](https://github.com/citra-emu/citra//pull/6855/files) | frame_dumper: Use jthread | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
