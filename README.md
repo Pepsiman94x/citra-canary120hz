@@ -1,3 +1,23 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6512](https://github.com/citra-emu/citra//pull/6512) | [`7ac6c5935`](https://github.com/citra-emu/citra//pull/6512/files) | Add vulkan backend | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`a2fd47796`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6646](https://github.com/citra-emu/citra//pull/6646) | [`0450c88fa`](https://github.com/citra-emu/citra//pull/6646/files) | ci: Re-enable macOS artifact upload. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6698](https://github.com/citra-emu/citra//pull/6698) | [`8012b28b9`](https://github.com/citra-emu/citra//pull/6698/files) | renderer_software: Multi-thread processing | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6844](https://github.com/citra-emu/citra//pull/6844) | [`9e56ffb60`](https://github.com/citra-emu/citra//pull/6844/files) | shader_interpreter: Fix control flow edge cases and implement break/breakc  | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6845](https://github.com/citra-emu/citra//pull/6845) | [`670900142`](https://github.com/citra-emu/citra//pull/6845/files) | build: Add flag for disabling bundling target. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6850](https://github.com/citra-emu/citra//pull/6850) | [`a7e6497bb`](https://github.com/citra-emu/citra//pull/6850/files) | gl_texture_runtime: Implement ARB_clear_texture | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6855](https://github.com/citra-emu/citra//pull/6855) | [`c652b5535`](https://github.com/citra-emu/citra//pull/6855/files) | frame_dumper: Use jthread | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6863](https://github.com/citra-emu/citra//pull/6863) | [`8804a9f59`](https://github.com/citra-emu/citra//pull/6863/files) | qt: Update Qt to 6.5.1 | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6864](https://github.com/citra-emu/citra//pull/6864) | [`6026a5201`](https://github.com/citra-emu/citra//pull/6864/files) | http/ac: Fix failing assert and stub GetConnectingProxyEnable | [DaniElectra](https://github.com/DaniElectra/) | Yes |
+| [6867](https://github.com/citra-emu/citra//pull/6867) | [`a9923ad04`](https://github.com/citra-emu/citra//pull/6867/files) | qt: Fix double dialog and crash when OpenGL is selected on unsupported platform. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6868](https://github.com/citra-emu/citra//pull/6868) | [`27e1debb7`](https://github.com/citra-emu/citra//pull/6868/files) | service: nfp: Fix size and increase timeout | [german77](https://github.com/german77/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
