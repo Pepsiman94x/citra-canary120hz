@@ -45,6 +45,9 @@ public:
     /// Returns the removal threshold ticks for the garbage collector
     u32 RemoveThreshold();
 
+    /// Submits and waits for current GPU work.
+    void Finish() {}
+
     /// Returns true if the provided pixel format cannot be used natively by the runtime.
     bool NeedsConversion(VideoCore::PixelFormat pixel_format) const;
 
