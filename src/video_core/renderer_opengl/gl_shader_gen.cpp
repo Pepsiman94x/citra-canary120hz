@@ -8,7 +8,6 @@
 #include "common/logging/log.h"
 #include "core/core.h"
 #include "core/telemetry_session.h"
-#include "video_core/pica_state.h"
 #include "video_core/renderer_opengl/gl_shader_decompiler.h"
 #include "video_core/renderer_opengl/gl_shader_gen.h"
 #include "video_core/renderer_opengl/gl_shader_util.h"
@@ -79,8 +78,7 @@ PicaFSConfig PicaFSConfig::BuildFromRegs(const Pica::Regs& regs, bool use_normal
 
     if (GLES) {
         // With GLES, we need this in the fragment shader to emulate logic operations
-        state.alphablend_enable =
-            Pica::g_state.regs.framebuffer.output_merger.alphablend_enable == 1;
+        state.alphablend_enable = regs.framebuffer.output_merger.alphablend_enable == 1;
         state.logic_op = regs.framebuffer.output_merger.logic_op;
     } else {
         // We don't need these otherwise, reset them to avoid unnecessary shader generation
