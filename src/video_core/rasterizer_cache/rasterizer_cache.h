@@ -700,8 +700,8 @@ FramebufferHelper<T> RasterizerCache<T>::GetFramebufferSurfaces(bool using_color
         fb_rect = depth_rect;
     }
 
-    const Surface* color_surface = color_id ? &slot_surfaces[color_id] : nullptr;
-    const Surface* depth_surface = depth_id ? &slot_surfaces[depth_id] : nullptr;
+    Surface* color_surface = color_id ? &slot_surfaces[color_id] : nullptr;
+    Surface* depth_surface = depth_id ? &slot_surfaces[depth_id] : nullptr;
 
     if (color_id) {
         color_level = color_surface->LevelOf(color_params.addr);
@@ -714,7 +714,7 @@ FramebufferHelper<T> RasterizerCache<T>::GetFramebufferSurfaces(bool using_color
                         boost::icl::length(depth_vp_interval));
     }
 
-    fb_params = FramebufferParams{
+    const FramebufferParams fb_params = {
         .color_id = color_id,
         .depth_id = depth_id,
         .color_level = color_level,
@@ -1292,11 +1292,6 @@ void RasterizerCache<T>::InvalidateRegion(PAddr addr, u32 size, SurfaceId region
 
     for (const SurfaceId surface_id : remove_surfaces) {
         UnregisterSurface(surface_id);
-        if (slot_surfaces[surface_id].type != SurfaceType::Fill) {
-            sentenced.emplace_back(surface_id, frame_tick);
-        } else {
-            slot_surfaces.erase(surface_id);
-        }
     }
 }
 
@@ -1357,7 +1352,13 @@ void RasterizerCache<T>::UnregisterSurface(SurfaceId surface_id) {
         surfaces.erase(vector_it);
     });
 
-    RemoveTextureCubeFace(surface_id);
+    if (surface.type != SurfaceType::Fill) {
+        RemoveTextureCubeFace(surface_id);
+        sentenced.emplace_back(surface_id, frame_tick);
+        return;
+    }
+
+    slot_surfaces.erase(surface_id);
 }
 
 template <class T>
@@ -1368,7 +1369,9 @@ void RasterizerCache<T>::UnregisterAll() {
             UnregisterSurface(surfaces.back());
         }
     }
-    texture_cube_cache.clear();
+    runtime.Finish();
+    frame_tick += runtime.RemoveThreshold();
+    RunGarbageCollector();
 }
 
 template <class T>
