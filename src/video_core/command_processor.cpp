@@ -638,7 +638,9 @@ static void WritePicaReg(u32 id, u32 value, u32 mask) {
         break;
     }
 
-    VideoCore::g_renderer->Rasterizer()->NotifyPicaRegisterChanged(id);
+    if (regs.reg_array[id] != old_value) {
+        VideoCore::g_renderer->Rasterizer()->NotifyPicaRegisterChanged(id);
+    }
 
     if (g_debug_context)
         g_debug_context->OnEvent(DebugContext::Event::PicaCommandProcessed,
