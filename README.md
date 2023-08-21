@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6512](https://github.com/citra-emu/citra//pull/6512) | [`037e1b1bd`](https://github.com/citra-emu/citra//pull/6512/files) | Add vulkan backend | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6646](https://github.com/citra-emu/citra//pull/6646) | [`0450c88fa`](https://github.com/citra-emu/citra//pull/6646/files) | ci: Re-enable macOS artifact upload. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6698](https://github.com/citra-emu/citra//pull/6698) | [`8012b28b9`](https://github.com/citra-emu/citra//pull/6698/files) | renderer_software: Multi-thread processing | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6844](https://github.com/citra-emu/citra//pull/6844) | [`9e56ffb60`](https://github.com/citra-emu/citra//pull/6844/files) | shader_interpreter: Fix control flow edge cases and implement break/breakc  | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6887](https://github.com/citra-emu/citra//pull/6887) | [`5489fcb0f`](https://github.com/citra-emu/citra//pull/6887/files) | build: Enable link time optimization in CI. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6895](https://github.com/citra-emu/citra//pull/6895) | [`91ce69f8f`](https://github.com/citra-emu/citra//pull/6895/files) | [ShaderGen] Avoid setting lighting states if components aren't enabled | [m4xw](https://github.com/m4xw/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
