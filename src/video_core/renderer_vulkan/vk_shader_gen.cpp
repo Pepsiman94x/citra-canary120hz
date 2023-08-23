@@ -46,7 +46,7 @@ static std::string GetVertexInterfaceDeclaration(bool is_output, bool use_clip_p
     if (is_output) {
         // gl_PerVertex redeclaration is required for separate shader object
         out += "out gl_PerVertex {\n";
-        out += "    vec4 gl_Position;\n";
+        out += "    invariant vec4 gl_Position;\n";
         if (use_clip_planes) {
             out += "    float gl_ClipDistance[2];\n";
         }
@@ -1507,10 +1507,11 @@ vec4 secondary_fragment_color = vec4(0.0);
                "gl_FragCoord.y < float(scissor_y2))) discard;\n";
     }
 
-    // After perspective divide, OpenGL transform z_over_w from [-1, 1] to [near, far]. Here we use
-    // default near = 0 and far = 1, and undo the transformation to get the original z_over_w, then
-    // do our own transformation according to PICA specification.
-    out += "float z_over_w = 2.0 * gl_FragCoord.z - 1.0;\n"
+    // The PICA depth range is [-1, 0] while in Vulkan that range is [0, 1].
+    // Thus in the vertex shader we flip the sign of the z component to place
+    // it in the correct range. Here we undo the transformation to get the original z_over_w,
+    // then do our own transformation according to PICA specification.
+    out += "float z_over_w = -gl_FragCoord.z;\n"
            "float depth = z_over_w * depth_scale + depth_offset;\n";
     if (state.depthmap_enable == RasterizerRegs::DepthBuffering::WBuffering) {
         out += "depth /= gl_FragCoord.w;\n";
@@ -1657,8 +1658,7 @@ void main() {
     texcoord0_w = vert_texcoord0_w;
     normquat = vert_normquat;
     view = vert_view;
-    gl_Position = vert_position;
-    gl_Position.z = (gl_Position.z + gl_Position.w) / 2.0;
+    gl_Position = vec4(vert_position.x, vert_position.y, -vert_position.z, vert_position.w);
 )";
     if (use_clip_planes) {
         out += R"(
@@ -1776,8 +1776,7 @@ layout (set = 0, binding = 0, std140) uniform vs_config {
                semantic(VSOutputAttributes::POSITION_Y) + ", " +
                semantic(VSOutputAttributes::POSITION_Z) + ", " +
                semantic(VSOutputAttributes::POSITION_W) + ");\n";
-        out += "    gl_Position = vtx_pos;\n";
-        out += "    gl_Position.z = (gl_Position.z + gl_Position.w) / 2.0;\n";
+        out += "    gl_Position = vec4(vtx_pos.x, vtx_pos.y, -vtx_pos.z, vtx_pos.w);\n";
         if (config.use_clip_planes) {
             out += "    gl_ClipDistance[0] = -vtx_pos.z;\n"; // fixed PICA clipping plane z <= 0
             out += "    if (enable_clip1) {\n";
@@ -1863,8 +1862,7 @@ struct Vertex {
            semantic(VSOutputAttributes::POSITION_Y) + ", " +
            semantic(VSOutputAttributes::POSITION_Z) + ", " +
            semantic(VSOutputAttributes::POSITION_W) + ");\n";
-    out += "    gl_Position = vtx_pos;\n";
-    out += "    gl_Position.z = (gl_Position.z + gl_Position.w) / 2.0;\n";
+    out += "    gl_Position = vec4(vtx_pos.x, vtx_pos.y, -vtx_pos.z, vtx_pos.w);\n";
     if (use_clip_planes) {
         out += "    gl_ClipDistance[0] = -vtx_pos.z;\n"; // fixed PICA clipping plane z <= 0
         out += "    if (enable_clip1) {\n";
