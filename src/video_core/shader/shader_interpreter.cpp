@@ -130,16 +130,24 @@ static void RunInterpreter(const ShaderSetup& setup, UnitState& state, DebugData
 
         debug_data.max_offset = std::max<u32>(debug_data.max_offset, 1 + program_counter);
 
-        auto LookupSourceRegister = [&](const SourceRegister& source_reg) -> const f24* {
+        auto LookupSourceRegister = [&](const SourceRegister& source_reg,
+                                        int address_register_index) -> const f24* {
+            int index = source_reg.GetIndex();
             switch (source_reg.GetRegisterType()) {
             case RegisterType::Input:
-                return &state.registers.input[source_reg.GetIndex()].x;
+                return &state.registers.input[index].x;
 
             case RegisterType::Temporary:
-                return &state.registers.temporary[source_reg.GetIndex()].x;
+                return &state.registers.temporary[index].x;
 
             case RegisterType::FloatUniform:
-                return &uniforms.f[source_reg.GetIndex()].x;
+                if (address_register_index != 0) {
+                    index += state.address_registers[address_register_index - 1];
+                    if (index < 0 || index >= 96) [[unlikely]] {
+                        return dummy_vec4_float24;
+                    }
+                }
+                return &uniforms.f[index].x;
 
             default:
                 return dummy_vec4_float24;
@@ -151,18 +159,15 @@ static void RunInterpreter(const ShaderSetup& setup, UnitState& state, DebugData
             const bool is_inverted =
                 (0 != (instr.opcode.Value().GetInfo().subtype & OpCode::Info::SrcInversed));
 
-            const int address_offset =
-                (instr.common.address_register_index == 0)
-                    ? 0
-                    : state.address_registers[instr.common.address_register_index - 1];
+            const f24* src1_ =
+                LookupSourceRegister(instr.common.GetSrc1(is_inverted),
+                                     !is_inverted * instr.common.address_register_index);
+            const f24* src2_ =
+                LookupSourceRegister(instr.common.GetSrc2(is_inverted),
+                                     is_inverted * instr.common.address_register_index);
 
-            const f24* src1_ = LookupSourceRegister(instr.common.GetSrc1(is_inverted) +
-                                                    (is_inverted ? 0 : address_offset));
-            const f24* src2_ = LookupSourceRegister(instr.common.GetSrc2(is_inverted) +
-                                                    (is_inverted ? address_offset : 0));
-
-            const bool negate_src1 = ((bool)swizzle.negate_src1 != false);
-            const bool negate_src2 = ((bool)swizzle.negate_src2 != false);
+            const bool negate_src1 = swizzle.negate_src1.Value() != 0;
+            const bool negate_src2 = swizzle.negate_src2.Value() != 0;
 
             f24 src1[4] = {
                 src1_[(int)swizzle.src1_selector_0.Value()],
@@ -476,20 +481,16 @@ static void RunInterpreter(const ShaderSetup& setup, UnitState& state, DebugData
 
                 bool is_inverted = (instr.opcode.Value().EffectiveOpCode() == OpCode::Id::MADI);
 
-                const int address_offset =
-                    (instr.mad.address_register_index == 0)
-                        ? 0
-                        : state.address_registers[instr.mad.address_register_index - 1];
+                const f24* src1_ = LookupSourceRegister(instr.mad.GetSrc1(is_inverted), 0);
+                const f24* src2_ =
+                    LookupSourceRegister(instr.mad.GetSrc2(is_inverted),
+                                         !is_inverted * instr.mad.address_register_index);
+                const f24* src3_ = LookupSourceRegister(
+                    instr.mad.GetSrc3(is_inverted), is_inverted * instr.mad.address_register_index);
 
-                const f24* src1_ = LookupSourceRegister(instr.mad.GetSrc1(is_inverted));
-                const f24* src2_ = LookupSourceRegister(instr.mad.GetSrc2(is_inverted) +
-                                                        (!is_inverted * address_offset));
-                const f24* src3_ = LookupSourceRegister(instr.mad.GetSrc3(is_inverted) +
-                                                        (is_inverted * address_offset));
-
-                const bool negate_src1 = ((bool)mad_swizzle.negate_src1 != false);
-                const bool negate_src2 = ((bool)mad_swizzle.negate_src2 != false);
-                const bool negate_src3 = ((bool)mad_swizzle.negate_src3 != false);
+                const bool negate_src1 = mad_swizzle.negate_src1.Value() != 0;
+                const bool negate_src2 = mad_swizzle.negate_src2.Value() != 0;
+                const bool negate_src3 = mad_swizzle.negate_src3.Value() != 0;
 
                 f24 src1[4] = {
                     src1_[(int)mad_swizzle.src1_selector_0.Value()],
