@@ -760,17 +760,14 @@ void RasterizerOpenGL::SyncCullMode() {
     case Pica::RasterizerRegs::CullMode::KeepAll:
         state.cull.enabled = false;
         break;
-
     case Pica::RasterizerRegs::CullMode::KeepClockWise:
         state.cull.enabled = true;
         state.cull.front_face = GL_CW;
         break;
-
     case Pica::RasterizerRegs::CullMode::KeepCounterClockWise:
         state.cull.enabled = true;
         state.cull.front_face = GL_CCW;
         break;
-
     default:
         LOG_CRITICAL(Render_OpenGL, "Unknown cull mode {}",
                      static_cast<u32>(regs.rasterizer.cull_mode.Value()));
@@ -784,10 +781,13 @@ void RasterizerOpenGL::SyncBlendEnabled() {
 }
 
 void RasterizerOpenGL::SyncBlendFuncs() {
-    state.blend.rgb_equation =
-        PicaToGL::BlendEquation(regs.framebuffer.output_merger.alpha_blending.blend_equation_rgb);
-    state.blend.a_equation =
-        PicaToGL::BlendEquation(regs.framebuffer.output_merger.alpha_blending.blend_equation_a);
+    const bool has_minmax_factor = driver.HasBlendMinMaxFactor();
+    const bool has_framebuffer_fetch = driver.HasShaderFramebufferFetch();
+
+    state.blend.rgb_equation = PicaToGL::BlendEquation(
+        regs.framebuffer.output_merger.alpha_blending.blend_equation_rgb, has_minmax_factor);
+    state.blend.a_equation = PicaToGL::BlendEquation(
+        regs.framebuffer.output_merger.alpha_blending.blend_equation_a, has_minmax_factor);
     state.blend.src_rgb_func =
         PicaToGL::BlendFunc(regs.framebuffer.output_merger.alpha_blending.factor_source_rgb);
     state.blend.dst_rgb_func =
@@ -796,14 +796,35 @@ void RasterizerOpenGL::SyncBlendFuncs() {
         PicaToGL::BlendFunc(regs.framebuffer.output_merger.alpha_blending.factor_source_a);
     state.blend.dst_a_func =
         PicaToGL::BlendFunc(regs.framebuffer.output_merger.alpha_blending.factor_dest_a);
+
+    if (has_minmax_factor || !has_framebuffer_fetch) {
+        return;
+    }
+    // Blending with min/max equations is emulated in the fragment shader so
+    // configure blending to not modify the incoming fragment color.
+    if (state.blend.rgb_equation == GL_MIN || state.blend.rgb_equation == GL_MAX) {
+        state.blend.rgb_equation = GL_FUNC_ADD;
+        state.blend.src_rgb_func = GL_ONE;
+        state.blend.dst_rgb_func = GL_ZERO;
+    }
+    if (state.blend.a_equation == GL_MIN || state.blend.a_equation == GL_MAX) {
+        state.blend.a_equation = GL_FUNC_ADD;
+        state.blend.src_a_func = GL_ONE;
+        state.blend.dst_a_func = GL_ZERO;
+    }
 }
 
 void RasterizerOpenGL::SyncBlendColor() {
-    auto blend_color = PicaToGL::ColorRGBA8(regs.framebuffer.output_merger.blend_const.raw);
+    const auto blend_color = PicaToGL::ColorRGBA8(regs.framebuffer.output_merger.blend_const.raw);
     state.blend.color.red = blend_color[0];
     state.blend.color.green = blend_color[1];
     state.blend.color.blue = blend_color[2];
     state.blend.color.alpha = blend_color[3];
+
+    if (blend_color != uniform_block_data.data.blend_color) {
+        uniform_block_data.data.blend_color = blend_color;
+        uniform_block_data.dirty = true;
+    }
 }
 
 void RasterizerOpenGL::SyncLogicOp() {
