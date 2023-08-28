@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6512](https://github.com/citra-emu/citra//pull/6512) | [`41e65c92e`](https://github.com/citra-emu/citra//pull/6512/files) | Add vulkan backend | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6646](https://github.com/citra-emu/citra//pull/6646) | [`0450c88fa`](https://github.com/citra-emu/citra//pull/6646/files) | ci: Re-enable macOS artifact upload. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6920](https://github.com/citra-emu/citra//pull/6920) | [`cf54400dc`](https://github.com/citra-emu/citra//pull/6920/files) | shader: Fix address register offset behavior in GLSL. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6921](https://github.com/citra-emu/citra//pull/6921) | [`d456156b4`](https://github.com/citra-emu/citra//pull/6921/files) | tev: Use primary color for previous source in first stage | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6925](https://github.com/citra-emu/citra//pull/6925) | [`cffb56526`](https://github.com/citra-emu/citra//pull/6925/files) | video_core: Take factors into account with min/max blending functions | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6926](https://github.com/citra-emu/citra//pull/6926) | [`d9bff979b`](https://github.com/citra-emu/citra//pull/6926/files) | Port yuzu-emu/yuzu##11350: "fix: Added padding to reset defaults button" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
