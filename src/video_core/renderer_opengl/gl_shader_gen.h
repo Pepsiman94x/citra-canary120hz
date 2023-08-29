@@ -11,6 +11,8 @@
 
 namespace OpenGL {
 
+class Driver;
+
 namespace ShaderDecompiler {
 struct ProgramResult;
 }
@@ -114,6 +116,13 @@ struct PicaFSConfigState {
         u32 lod_max;
         Pica::TexturingRegs::ProcTexFilter lut_filter;
     } proctex;
+
+    struct {
+        bool emulate_blending;
+        Pica::FramebufferRegs::BlendEquation eq;
+        Pica::FramebufferRegs::BlendFactor src_factor;
+        Pica::FramebufferRegs::BlendFactor dst_factor;
+    } rgb_blend, alpha_blend;
 
     bool shadow_rendering;
     bool shadow_texture_orthographic;
