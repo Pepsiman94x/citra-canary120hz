@@ -14,6 +14,10 @@
 
 #include <vk_mem_alloc.h>
 
+#ifdef __APPLE__
+#include <mvk_config.h>
+#endif
+
 namespace Vulkan {
 
 namespace {
@@ -130,12 +134,12 @@ Instance::Instance(bool enable_validation, bool dump_command_buffers)
       physical_devices{instance->enumeratePhysicalDevices()} {}
 
 Instance::Instance(Frontend::EmuWindow& window, u32 physical_device_index)
-    : library{OpenLibrary()}, instance{CreateInstance(
-                                  *library, window.GetWindowInfo().type,
-                                  Settings::values.renderer_debug.GetValue(),
-                                  Settings::values.dump_command_buffers.GetValue())},
-      debug_callback{CreateDebugCallback(*instance)}, physical_devices{
-                                                          instance->enumeratePhysicalDevices()} {
+    : library{OpenLibrary(&window)}, instance{CreateInstance(
+                                         *library, window.GetWindowInfo().type,
+                                         Settings::values.renderer_debug.GetValue(),
+                                         Settings::values.dump_command_buffers.GetValue())},
+      debug_callback{CreateDebugCallback(*instance, debug_utils_supported)},
+      physical_devices{instance->enumeratePhysicalDevices()} {
     const std::size_t num_physical_devices = static_cast<u16>(physical_devices.size());
     ASSERT_MSG(physical_device_index < num_physical_devices,
                "Invalid physical device index {} provided when only {} devices exist",
@@ -146,6 +150,7 @@ Instance::Instance(Frontend::EmuWindow& window, u32 physical_device_index)
 
     CollectTelemetryParameters();
     CreateDevice();
+    CollectToolingInfo();
     CreateFormatTable();
     CreateCustomFormatTable();
     CreateAttribTable();
@@ -209,12 +214,16 @@ FormatTraits Instance::DetermineTraits(VideoCore::PixelFormat pixel_format, vk::
         best_usage |= vk::ImageUsageFlagBits::eSampled | vk::ImageUsageFlagBits::eTransferDst |
                       vk::ImageUsageFlagBits::eTransferSrc;
     }
-    if (supports_attachment) {
+    // Attachment flag is only needed for color and depth formats.
+    if (supports_attachment &&
+        VideoCore::GetFormatType(pixel_format) != VideoCore::SurfaceType::Texture) {
         best_usage |= (format_aspect & vk::ImageAspectFlagBits::eDepth)
                           ? vk::ImageUsageFlagBits::eDepthStencilAttachment
                           : vk::ImageUsageFlagBits::eColorAttachment;
     }
-    if (supports_storage) {
+    // Storage flag is only needed for shadow rendering with RGBA8 texture.
+    // Keeping it disables can boost performance on mobile drivers.
+    if (supports_storage && pixel_format == VideoCore::PixelFormat::RGBA8) {
         best_usage |= vk::ImageUsageFlagBits::eStorage;
     }
 
@@ -397,12 +406,14 @@ bool Instance::CreateDevice() {
         return false;
     };
 
+    const bool is_nvidia = driver_id == vk::DriverIdKHR::eNvidiaProprietary;
     const bool is_arm = driver_id == vk::DriverIdKHR::eArmProprietary;
     const bool is_qualcomm = driver_id == vk::DriverIdKHR::eQualcommProprietary;
 
     add_extension(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
     image_format_list = add_extension(VK_KHR_IMAGE_FORMAT_LIST_EXTENSION_NAME);
     shader_stencil_export = add_extension(VK_EXT_SHADER_STENCIL_EXPORT_EXTENSION_NAME);
+    tooling_info = add_extension(VK_EXT_TOOLING_INFO_EXTENSION_NAME);
     const bool has_timeline_semaphores = add_extension(
         VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME, is_qualcomm, "it is broken on Qualcomm drivers");
     const bool has_portability_subset = add_extension(VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME);
@@ -414,7 +425,8 @@ bool Instance::CreateDevice() {
                       "it is broken on most Qualcomm driver versions");
     const bool has_index_type_uint8 = add_extension(VK_EXT_INDEX_TYPE_UINT8_EXTENSION_NAME);
     const bool has_pipeline_creation_cache_control =
-        add_extension(VK_EXT_PIPELINE_CREATION_CACHE_CONTROL_EXTENSION_NAME);
+        add_extension(VK_EXT_PIPELINE_CREATION_CACHE_CONTROL_EXTENSION_NAME, is_nvidia,
+                      "it is broken on Nvidia drivers");
 
     const auto family_properties = physical_device.getQueueFamilyProperties();
     if (family_properties.empty()) {
@@ -453,10 +465,9 @@ bool Instance::CreateDevice() {
         },
         vk::PhysicalDeviceFeatures2{
             .features{
+                .robustBufferAccess = features.robustBufferAccess,
                 .geometryShader = features.geometryShader,
                 .logicOp = features.logicOp,
-                .depthClamp = features.depthClamp,
-                .largePoints = features.largePoints,
                 .samplerAnisotropy = features.samplerAnisotropy,
                 .fragmentStoresAndAtomics = features.fragmentStoresAndAtomics,
                 .shaderClipDistance = features.shaderClipDistance,
@@ -533,6 +544,12 @@ bool Instance::CreateDevice() {
 #undef PROP_GET
 #undef FEAT_SET
 
+#ifdef __APPLE__
+    if (!SetMoltenVkConfig()) {
+        LOG_WARNING(Render_Vulkan, "Unable to set MoltenVK configuration");
+    }
+#endif
+
     try {
         device = physical_device.createDeviceUnique(device_chain.get());
     } catch (vk::ExtensionNotPresentError& err) {
@@ -578,6 +595,60 @@ void Instance::CollectTelemetryParameters() {
 
     driver_id = driver.driverID;
     vendor_name = driver.driverName.data();
+}
+
+void Instance::CollectToolingInfo() {
+    if (!tooling_info) {
+        return;
+    }
+    const auto tools = physical_device.getToolProperties();
+    for (const vk::PhysicalDeviceToolProperties& tool : tools) {
+        const std::string_view name = tool.name;
+        LOG_INFO(Render_Vulkan, "Attached debugging tool: {}", name);
+        has_renderdoc = has_renderdoc || name == "RenderDoc";
+        has_nsight_graphics = has_nsight_graphics || name == "NVIDIA Nsight Graphics";
+    }
+}
+
+bool Instance::SetMoltenVkConfig() {
+#ifdef __APPLE__
+    size_t mvk_config_size = sizeof(MVKConfiguration);
+    MVKConfiguration mvk_config{};
+
+    const auto _vkGetMoltenVKConfigurationMVK =
+        library->GetSymbol<PFN_vkGetMoltenVKConfigurationMVK>("vkGetMoltenVKConfigurationMVK");
+    if (!_vkGetMoltenVKConfigurationMVK) {
+        return false;
+    }
+
+    const auto _vkSetMoltenVKConfigurationMVK =
+        library->GetSymbol<PFN_vkSetMoltenVKConfigurationMVK>("vkSetMoltenVKConfigurationMVK");
+    if (!_vkSetMoltenVKConfigurationMVK) {
+        return false;
+    }
+
+    if (_vkGetMoltenVKConfigurationMVK(VK_NULL_HANDLE, &mvk_config, &mvk_config_size) !=
+        VK_SUCCESS) {
+        return false;
+    }
+
+    // Use synchronous queue submits if async presentation is enabled, to avoid threading
+    // indirection.
+    mvk_config.synchronousQueueSubmits = Settings::values.async_presentation.GetValue();
+    // If the device is lost, make an attempt to resume if possible to avoid crashes.
+    mvk_config.resumeLostDevice = true;
+    // Maximize concurrency to improve shader compilation performance.
+    mvk_config.shouldMaximizeConcurrentCompilation = true;
+    // Use Metal argument buffers as otherwise we run into issues with shadow rendering
+    // image atomics.
+    mvk_config.useMetalArgumentBuffers = MVK_CONFIG_USE_METAL_ARGUMENT_BUFFERS_ALWAYS;
+
+    if (_vkSetMoltenVKConfigurationMVK(VK_NULL_HANDLE, &mvk_config, &mvk_config_size) !=
+        VK_SUCCESS) {
+        return false;
+    }
+#endif
+    return true;
 }
 
 } // namespace Vulkan
