@@ -90,6 +90,16 @@ public:
         return present_queue;
     }
 
+    /// Returns true when a known debugging tool is attached.
+    bool HasDebuggingToolAttached() const {
+        return has_renderdoc || has_nsight_graphics;
+    }
+
+    /// Returns true when VK_EXT_debug_utils is supported.
+    bool IsExtDebugUtilsSupported() const {
+        return debug_utils_supported;
+    }
+
     /// Returns true if logic operations need shader emulation
     bool NeedsLogicOpEmulation() const {
         return !features.logicOp;
@@ -145,11 +155,6 @@ public:
         return shader_stencil_export;
     }
 
-    /// Returns true if VK_EXT_debug_utils is supported
-    bool IsExtDebugUtilsSupported() const {
-        return debug_messenger_supported;
-    }
-
     /// Returns the vendor ID of the physical device
     u32 GetVendorID() const {
         return properties.vendorID;
@@ -198,6 +203,11 @@ public:
     /// Returns the minimum required alignment for uniforms
     vk::DeviceSize UniformMinAlignment() const {
         return properties.limits.minUniformBufferOffsetAlignment;
+    }
+
+    /// Returns the minimum alignemt required for accessing host-mapped device memory
+    vk::DeviceSize NonCoherentAtomSize() const {
+        return properties.limits.nonCoherentAtomSize;
     }
 
     /// Returns the maximum supported elements in a texel buffer
@@ -249,6 +259,10 @@ private:
 
     /// Collects telemetry information from the device.
     void CollectTelemetryParameters();
+    void CollectToolingInfo();
+
+    /// Sets MoltenVK configuration to the desired state.
+    bool SetMoltenVkConfig();
 
 private:
     std::shared_ptr<Common::DynamicLibrary> library;
@@ -280,7 +294,10 @@ private:
     bool image_format_list{};
     bool pipeline_creation_cache_control{};
     bool shader_stencil_export{};
-    bool debug_messenger_supported{};
+    bool tooling_info{};
+    bool debug_utils_supported{};
+    bool has_nsight_graphics{};
+    bool has_renderdoc{};
 };
 
 } // namespace Vulkan
