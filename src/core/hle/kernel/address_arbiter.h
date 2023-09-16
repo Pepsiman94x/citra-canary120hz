@@ -53,8 +53,9 @@ public:
 
     std::string name; ///< Name of address arbiter object (optional)
 
-    ResultCode ArbitrateAddress(std::shared_ptr<Thread> thread, ArbitrationType type, VAddr address,
-                                s32 value, u64 nanoseconds);
+    std::pair<ResultCode, u64> ArbitrateAddress(std::shared_ptr<Thread>&& thread,
+                                                ArbitrationType type, VAddr address, s32 value,
+                                                u64 nanoseconds);
 
     class Callback;
 
@@ -62,14 +63,14 @@ private:
     KernelSystem& kernel;
 
     /// Puts the thread to wait on the specified arbitration address under this address arbiter.
-    void WaitThread(std::shared_ptr<Thread> thread, VAddr wait_address);
+    void WaitThread(std::shared_ptr<Thread>&& thread, VAddr wait_address);
 
     /// Resume all threads found to be waiting on the address under this address arbiter
-    void ResumeAllThreads(VAddr address);
+    u64 ResumeAllThreads(VAddr address);
 
     /// Resume one thread found to be waiting on the address under this address arbiter and return
     /// the resumed thread.
-    std::shared_ptr<Thread> ResumeHighestPriorityThread(VAddr address);
+    bool ResumeHighestPriorityThread(VAddr address);
 
     /// Threads waiting for the address arbiter to be signaled.
     std::vector<std::shared_ptr<Thread>> waiting_threads;
