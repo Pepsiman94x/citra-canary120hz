@@ -158,11 +158,6 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.target }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.target }}-
-      - name: Increase Pagefile size
-        uses: al-cheb/configure-pagefile-action@v1.2
-        with:
-          minimum-size: 2GB
-          maximum-size: 6GB
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
         if: ${{ matrix.target == 'msvc' }}
@@ -176,6 +171,17 @@ jobs:
           vulkan-query-version: latest
           vulkan-components: Glslang
           vulkan-use-cache: true
+      - name: Increase Pagefile Size (MSVC)
+        shell: pwsh
+        if: ${{ matrix.target == 'msvc' }}
+        run: |
+          $system = Get-CimInstance -ClassName Win32_ComputerSystem
+          $system.AutomaticManagedPagefile = $false
+          Set-CimInstance -InputObject $system
+          $pagefile = Get-CimInstance -ClassName Win32_PageFileSetting | Where-Object {$_.name -eq "$ENV:SystemDrive\pagefile.sys"}
+          $pagefile.InitialSize = 2048
+          $pagefile.MaximumSize = 6144
+          Set-CimInstance -InputObject $pagefile
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
         if: ${{ matrix.target == 'msys2' }}
