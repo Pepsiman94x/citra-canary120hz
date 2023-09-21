@@ -1,3 +1,17 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6942](https://github.com/citra-emu/citra//pull/6942) | [`f6cac892e`](https://github.com/citra-emu/citra//pull/6942/files) | shader: Fix address register offset behavior in x64 Jit | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6977](https://github.com/citra-emu/citra//pull/6977) | [`ab6f1f82f`](https://github.com/citra-emu/citra//pull/6977/files) | kernel: Partially emulate svcArbitrateAddress timing | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6990](https://github.com/citra-emu/citra//pull/6990) | [`837d6520c`](https://github.com/citra-emu/citra//pull/6990/files) | video_core: Abstract shader generators. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6993](https://github.com/citra-emu/citra//pull/6993) | [`38c4b9f98`](https://github.com/citra-emu/citra//pull/6993/files) | ci: Use custom script for increasing Windows Pagefile size. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6995](https://github.com/citra-emu/citra//pull/6995) | [`357c5f5d1`](https://github.com/citra-emu/citra//pull/6995/files) | audio_core\hle\shared_memory.h: Update struct member names based on FE:Fates Symbols | [SachinVin](https://github.com/SachinVin/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
