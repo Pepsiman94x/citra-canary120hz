@@ -15,13 +15,13 @@
 
 namespace Kernel {
 
-void AddressArbiter::WaitThread(std::shared_ptr<Thread> thread, VAddr wait_address) {
+void AddressArbiter::WaitThread(std::shared_ptr<Thread>&& thread, VAddr wait_address) {
     thread->wait_address = wait_address;
     thread->status = ThreadStatus::WaitArb;
     waiting_threads.emplace_back(std::move(thread));
 }
 
-void AddressArbiter::ResumeAllThreads(VAddr address) {
+u64 AddressArbiter::ResumeAllThreads(VAddr address) {
     // Determine which threads are waiting on this address, those should be woken up.
     auto itr = std::stable_partition(waiting_threads.begin(), waiting_threads.end(),
                                      [address](const auto& thread) {
@@ -31,13 +31,15 @@ void AddressArbiter::ResumeAllThreads(VAddr address) {
                                      });
 
     // Wake up all the found threads
+    const u64 num_threads = std::distance(itr, waiting_threads.end());
     std::for_each(itr, waiting_threads.end(), [](auto& thread) { thread->ResumeFromWait(); });
 
     // Remove the woken up threads from the wait list.
     waiting_threads.erase(itr, waiting_threads.end());
+    return num_threads;
 }
 
-std::shared_ptr<Thread> AddressArbiter::ResumeHighestPriorityThread(VAddr address) {
+bool AddressArbiter::ResumeHighestPriorityThread(VAddr address) {
     // Determine which threads are waiting on this address, those should be considered for wakeup.
     auto matches_start = std::stable_partition(
         waiting_threads.begin(), waiting_threads.end(), [address](const auto& thread) {
@@ -54,14 +56,15 @@ std::shared_ptr<Thread> AddressArbiter::ResumeHighestPriorityThread(VAddr addres
                                     return lhs->current_priority < rhs->current_priority;
                                 });
 
-    if (itr == waiting_threads.end())
-        return nullptr;
+    if (itr == waiting_threads.end()) {
+        return false;
+    }
 
     auto thread = *itr;
     thread->ResumeFromWait();
-
     waiting_threads.erase(itr);
-    return thread;
+
+    return true;
 }
 
 AddressArbiter::AddressArbiter(KernelSystem& kernel)
@@ -102,69 +105,78 @@ void AddressArbiter::WakeUp(ThreadWakeupReason reason, std::shared_ptr<Thread> t
                           waiting_threads.end());
 };
 
-ResultCode AddressArbiter::ArbitrateAddress(std::shared_ptr<Thread> thread, ArbitrationType type,
-                                            VAddr address, s32 value, u64 nanoseconds) {
+std::pair<ResultCode, u64> AddressArbiter::ArbitrateAddress(std::shared_ptr<Thread>&& thread,
+                                                            ArbitrationType type, VAddr address,
+                                                            s32 value, u64 nanoseconds) {
+    u64 ticks{};
     switch (type) {
-
     // Signal thread(s) waiting for arbitrate address...
-    case ArbitrationType::Signal:
+    case ArbitrationType::Signal: {
         // Negative value means resume all threads
+        u64 num_threads = 0;
         if (value < 0) {
-            ResumeAllThreads(address);
+            num_threads = ResumeAllThreads(address);
         } else {
             // Resume first N threads
-            for (int i = 0; i < value; i++)
-                ResumeHighestPriorityThread(address);
+            for (int i = 0; i < value; i++) {
+                num_threads += ResumeHighestPriorityThread(address);
+            }
         }
+        // In some cases ArbitrateAddress is called in a busy loop
+        // which causes large slowdown. To avoid this, emulate the timing of the SVC.
+        // The added cycles were approx. measured on an n3DS running firmware 11.17
+        ticks = 3012 + num_threads * 200;
         break;
-
+    }
     // Wait current thread (acquire the arbiter)...
-    case ArbitrationType::WaitIfLessThan:
-        if ((s32)kernel.memory.Read32(address) < value) {
+    case ArbitrationType::WaitIfLessThan: {
+        const s32 memory_value = kernel.memory.Read32(address);
+        if (memory_value < value) {
             WaitThread(std::move(thread), address);
         }
         break;
-    case ArbitrationType::WaitIfLessThanWithTimeout:
-        if ((s32)kernel.memory.Read32(address) < value) {
+    }
+    case ArbitrationType::WaitIfLessThanWithTimeout: {
+        const s32 memory_value = kernel.memory.Read32(address);
+        if (memory_value < value) {
             thread->wakeup_callback = timeout_callback;
             thread->WakeAfterDelay(nanoseconds);
             WaitThread(std::move(thread), address);
         }
         break;
+    }
     case ArbitrationType::DecrementAndWaitIfLessThan: {
-        s32 memory_value = kernel.memory.Read32(address);
+        const s32 memory_value = kernel.memory.Read32(address);
         if (memory_value < value) {
             // Only change the memory value if the thread should wait
-            kernel.memory.Write32(address, (s32)memory_value - 1);
+            kernel.memory.Write32(address, memory_value - 1);
             WaitThread(std::move(thread), address);
         }
         break;
     }
     case ArbitrationType::DecrementAndWaitIfLessThanWithTimeout: {
-        s32 memory_value = kernel.memory.Read32(address);
+        const s32 memory_value = kernel.memory.Read32(address);
         if (memory_value < value) {
             // Only change the memory value if the thread should wait
-            kernel.memory.Write32(address, (s32)memory_value - 1);
+            kernel.memory.Write32(address, memory_value - 1);
             thread->wakeup_callback = timeout_callback;
             thread->WakeAfterDelay(nanoseconds);
             WaitThread(std::move(thread), address);
         }
         break;
     }
-
     default:
         LOG_ERROR(Kernel, "unknown type={}", type);
-        return ERR_INVALID_ENUM_VALUE_FND;
+        return std::make_pair(ERR_INVALID_ENUM_VALUE_FND, 0);
     }
 
-    // The calls that use a timeout seem to always return a Timeout error even if they did not put
-    // the thread to sleep
+    // The calls that use a timeout seem to always return a Timeout error
+    // even if they did not put the thread to sleep.
     if (type == ArbitrationType::WaitIfLessThanWithTimeout ||
         type == ArbitrationType::DecrementAndWaitIfLessThanWithTimeout) {
-
-        return RESULT_TIMEOUT;
+        return std::make_pair(RESULT_TIMEOUT, ticks);
     }
-    return RESULT_SUCCESS;
+    return std::make_pair(RESULT_SUCCESS, ticks);
 }
 
 } // namespace Kernel
