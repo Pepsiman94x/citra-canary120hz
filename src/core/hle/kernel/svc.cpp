@@ -1079,23 +1079,26 @@ ResultCode SVC::CreateAddressArbiter(Handle* out_handle) {
 }
 
 /// Arbitrate address
-ResultCode SVC::ArbitrateAddress(Handle handle, u32 address, u32 type, u32 value, s64 nanoseconds) {
+ResultCode SVC::ArbitrateAddress(Handle handle, u32 address, u32 arbitration_type, u32 value,
+                                 s64 nanoseconds) {
     LOG_TRACE(Kernel_SVC, "called handle=0x{:08X}, address=0x{:08X}, type=0x{:08X}, value=0x{:08X}",
               handle, address, type, value);
 
-    std::shared_ptr<AddressArbiter> arbiter =
-        kernel.GetCurrentProcess()->handle_table.Get<AddressArbiter>(handle);
-    if (arbiter == nullptr)
+    const auto arbiter = kernel.GetCurrentProcess()->handle_table.Get<AddressArbiter>(handle);
+    if (!arbiter) [[unlikely]] {
         return ERR_INVALID_HANDLE;
+    }
 
-    auto res =
-        arbiter->ArbitrateAddress(SharedFrom(kernel.GetCurrentThreadManager().GetCurrentThread()),
-                                  static_cast<ArbitrationType>(type), address, value, nanoseconds);
+    auto thread = SharedFrom(kernel.GetCurrentThreadManager().GetCurrentThread());
+    const auto type = static_cast<ArbitrationType>(arbitration_type);
+    const auto [result, ticks] =
+        arbiter->ArbitrateAddress(std::move(thread), type, address, value, nanoseconds);
 
+    system.GetRunningCore().GetTimer().AddTicks(ticks);
     // TODO(Subv): Identify in which specific cases this call should cause a reschedule.
     system.PrepareReschedule();
 
-    return res;
+    return result;
 }
 
 void SVC::Break(u8 break_reason) {
