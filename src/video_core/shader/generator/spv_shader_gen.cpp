@@ -4,7 +4,7 @@
 
 #include "core/core.h"
 #include "core/telemetry_session.h"
-#include "video_core/renderer_vulkan/vk_shader_gen_spv.h"
+#include "video_core/shader/generator/spv_shader_gen.h"
 
 using Pica::FramebufferRegs;
 using Pica::LightingRegs;
@@ -12,7 +12,7 @@ using Pica::RasterizerRegs;
 using Pica::TexturingRegs;
 using TevStageConfig = TexturingRegs::TevStageConfig;
 
-namespace Vulkan {
+namespace Pica::Shader::Generator::SPIRV {
 
 constexpr u32 SPIRV_VERSION_1_3 = 0x00010300;
 
@@ -202,7 +202,7 @@ void FragmentModule::WriteFog() {
 void FragmentModule::WriteGas() {
     // TODO: Implement me
     telemetry.AddField(Common::Telemetry::FieldType::Session, "VideoCore_Pica_UseGasMode", true);
-    LOG_CRITICAL(Render_Vulkan, "Unimplemented gas mode");
+    LOG_CRITICAL(Render, "Unimplemented gas mode");
     OpKill();
     OpFunctionEnd();
 }
@@ -706,7 +706,7 @@ void FragmentModule::WriteAlphaTestCondition(FramebufferRegs::CompareFunc func) 
         break;
     }
     default:
-        LOG_CRITICAL(Render_Vulkan, "Unknown alpha test condition {}", func);
+        LOG_CRITICAL(Render, "Unknown alpha test condition {}", func);
         break;
     }
 }
@@ -791,7 +791,7 @@ Id FragmentModule::AppendProcTexShiftOffset(Id v, ProcTexShift mode, ProcTexClam
     case ProcTexShift::Even:
         return shift(true);
     default:
-        LOG_CRITICAL(Render_Vulkan, "Unknown shift mode {}", mode);
+        LOG_CRITICAL(Render, "Unknown shift mode {}", mode);
         return ConstF32(0.f);
     }
 }
@@ -819,7 +819,7 @@ Id FragmentModule::AppendProcTexClamp(Id var, ProcTexClamp mode) {
     case ProcTexClamp::Pulse:
         return OpSelect(f32_id, OpFOrdGreaterThan(bool_id, var, ConstF32(0.5f)), one, zero);
     default:
-        LOG_CRITICAL(Render_Vulkan, "Unknown clamp mode {}", mode);
+        LOG_CRITICAL(Render, "Unknown clamp mode {}", mode);
         return OpFMin(f32_id, var, one);
     }
 }
@@ -851,7 +851,7 @@ Id FragmentModule::AppendProcTexCombineAndMap(ProcTexCombiner combiner, Id u, Id
             return OpFMin(f32_id, OpFMul(f32_id, r, ConstF32(0.5f)), ConstF32(1.f));
         }
         default:
-            LOG_CRITICAL(Render_Vulkan, "Unknown combiner {}", combiner);
+            LOG_CRITICAL(Render, "Unknown combiner {}", combiner);
             return ConstF32(0.f);
         }
     }();
@@ -976,7 +976,7 @@ void FragmentModule::DefineTexSampler(u32 texture_unit) {
             // return "shadowTextureCube(texcoord0, texcoord0_w)";
             break;
         default:
-            LOG_CRITICAL(Render_Vulkan, "Unhandled texture type {:x}", state.texture0_type);
+            LOG_CRITICAL(Render, "Unhandled texture type {:x}", state.texture0_type);
             UNIMPLEMENTED();
             ret_val = zero_vec;
             break;
@@ -1012,7 +1012,7 @@ Id FragmentModule::ProcTexSampler() {
         const Id texcoord{OpLoad(vec_ids.Get(2), texcoord_id[config.state.proctex.coord.Value()])};
         uv = OpFAbs(vec_ids.Get(2), texcoord);
     } else {
-        LOG_CRITICAL(Render_Vulkan, "Unexpected proctex.coord >= 3");
+        LOG_CRITICAL(Render, "Unexpected proctex.coord >= 3");
         uv = OpFAbs(vec_ids.Get(2), OpLoad(vec_ids.Get(2), texcoord_id[0]));
     }
 
@@ -1278,7 +1278,7 @@ Id FragmentModule::AppendSource(TevStageConfig::Source source, s32 index) {
     case Source::Previous:
         return last_tex_env_out;
     default:
-        LOG_CRITICAL(Render_Vulkan, "Unknown source op {}", source);
+        LOG_CRITICAL(Render, "Unknown source op {}", source);
         return ConstF32(0.f, 0.f, 0.f, 0.f);
     }
 }
@@ -1315,7 +1315,7 @@ Id FragmentModule::AppendColorModifier(TevStageConfig::ColorModifier modifier,
     case ColorModifier::OneMinusSourceAlpha:
         return OpFSub(vec_ids.Get(3), one_vec, shuffle(3, 3, 3));
     default:
-        LOG_CRITICAL(Render_Vulkan, "Unknown color modifier op {}", modifier);
+        LOG_CRITICAL(Render, "Unknown color modifier op {}", modifier);
         return one_vec;
     }
 }
@@ -1346,7 +1346,7 @@ Id FragmentModule::AppendAlphaModifier(TevStageConfig::AlphaModifier modifier,
     case AlphaModifier::OneMinusSourceBlue:
         return OpFSub(f32_id, one_f32, component(2));
     default:
-        LOG_CRITICAL(Render_Vulkan, "Unknown alpha modifier op {}", modifier);
+        LOG_CRITICAL(Render, "Unknown alpha modifier op {}", modifier);
         return one_f32;
     }
 }
@@ -1395,7 +1395,7 @@ Id FragmentModule::AppendColorCombiner(Pica::TexturingRegs::TevStageConfig::Oper
         break;
     default:
         color = zero_vec;
-        LOG_CRITICAL(Render_Vulkan, "Unknown color combiner operation: {}", operation);
+        LOG_CRITICAL(Render, "Unknown color combiner operation: {}", operation);
         break;
     }
 
@@ -1435,7 +1435,7 @@ Id FragmentModule::AppendAlphaCombiner(TevStageConfig::Operation operation) {
         break;
     default:
         color = ConstF32(0.f);
-        LOG_CRITICAL(Render_Vulkan, "Unknown alpha combiner operation: {}", operation);
+        LOG_CRITICAL(Render, "Unknown alpha combiner operation: {}", operation);
         break;
     }
 
@@ -1485,16 +1485,15 @@ void FragmentModule::DefineUniformStructs() {
 
     const Id shader_data_struct_id{
         TypeStruct(i32_id, i32_id, f32_id, f32_id, f32_id, f32_id, i32_id, i32_id, i32_id, i32_id,
-                   i32_id, i32_id, i32_id, i32_id, i32_id, i32_id, f32_id, i32_id, u32_id,
+                   i32_id, i32_id, i32_id, i32_id, i32_id, i32_id, f32_id, i32_id,
                    lighting_lut_array_id, vec_ids.Get(3), vec_ids.Get(2), vec_ids.Get(2),
                    vec_ids.Get(2), vec_ids.Get(3), light_src_array_id, const_color_array_id,
                    vec_ids.Get(4), vec_ids.Get(3), border_color_array_id, vec_ids.Get(4))};
 
     constexpr std::array light_src_offsets{0u, 16u, 32u, 48u, 64u, 80u, 92u, 96u};
-    constexpr std::array shader_data_offsets{0u,   4u,   8u,    12u,   16u,   20u,   24u,  28u,
-                                             32u,  36u,  40u,   44u,   48u,   52u,   56u,  60u,
-                                             64u,  68u,  72u,   80u,   176u,  192u,  200u, 208u,
-                                             224u, 240u, 1136u, 1232u, 1248u, 1264u, 1312u};
+    constexpr std::array shader_data_offsets{
+        0u,  4u,  8u,  12u, 16u,  20u,  24u,  28u,  32u,  36u,  40u,   44u,   48u,   52u,   56u,
+        60u, 64u, 68u, 80u, 176u, 192u, 200u, 208u, 224u, 240u, 1136u, 1232u, 1248u, 1264u, 1312u};
 
     Decorate(lighting_lut_array_id, spv::Decoration::ArrayStride, 16u);
     Decorate(light_src_array_id, spv::Decoration::ArrayStride, 112u);
@@ -1511,7 +1510,7 @@ void FragmentModule::DefineUniformStructs() {
     shader_data_id = AddGlobalVariable(
         TypePointer(spv::StorageClass::Uniform, shader_data_struct_id), spv::StorageClass::Uniform);
     Decorate(shader_data_id, spv::Decoration::DescriptorSet, 0);
-    Decorate(shader_data_id, spv::Decoration::Binding, 1);
+    Decorate(shader_data_id, spv::Decoration::Binding, 2);
 }
 
 void FragmentModule::DefineInterface() {
@@ -1532,9 +1531,9 @@ void FragmentModule::DefineInterface() {
     image_r32_id = TypeImage(u32_id, spv::Dim::Dim2D, 0, 0, 0, 2, spv::ImageFormat::R32ui);
     sampler_id = TypeSampler();
 
-    texture_buffer_lut_lf_id = DefineUniformConst(TypeSampledImage(image_buffer_id), 0, 2);
-    texture_buffer_lut_rg_id = DefineUniformConst(TypeSampledImage(image_buffer_id), 0, 3);
-    texture_buffer_lut_rgba_id = DefineUniformConst(TypeSampledImage(image_buffer_id), 0, 4);
+    texture_buffer_lut_lf_id = DefineUniformConst(TypeSampledImage(image_buffer_id), 0, 3);
+    texture_buffer_lut_rg_id = DefineUniformConst(TypeSampledImage(image_buffer_id), 0, 4);
+    texture_buffer_lut_rgba_id = DefineUniformConst(TypeSampledImage(image_buffer_id), 0, 5);
     tex0_id = DefineUniformConst(TypeSampledImage(image2d_id), 1, 0);
     tex1_id = DefineUniformConst(TypeSampledImage(image2d_id), 1, 1);
     tex2_id = DefineUniformConst(TypeSampledImage(image2d_id), 1, 2);
@@ -1550,11 +1549,11 @@ void FragmentModule::DefineInterface() {
     Decorate(gl_frag_depth_id, spv::Decoration::BuiltIn, spv::BuiltIn::FragDepth);
 }
 
-std::vector<u32> GenerateFragmentShaderSPV(const PicaFSConfig& config) {
+std::vector<u32> GenerateFragmentShader(const PicaFSConfig& config) {
     auto& telemetry = Core::System::GetInstance().TelemetrySession();
     FragmentModule module{telemetry, config};
     module.Generate();
     return module.Assemble();
 }
 
-} // namespace Vulkan
+} // namespace Pica::Shader::Generator::SPIRV
