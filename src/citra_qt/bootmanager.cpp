@@ -144,7 +144,13 @@ public:
     explicit OpenGLSharedContext() {
         QSurfaceFormat format;
 
-        format.setVersion(4, 3);
+        if (Settings::values.use_gles) {
+            format.setRenderableType(QSurfaceFormat::RenderableType::OpenGLES);
+            format.setVersion(3, 2);
+        } else {
+            format.setRenderableType(QSurfaceFormat::RenderableType::OpenGL);
+            format.setVersion(4, 3);
+        }
         format.setProfile(QSurfaceFormat::CoreProfile);
 
         if (Settings::values.renderer_debug) {
@@ -364,7 +370,8 @@ static Frontend::WindowSystemType GetWindowSystemType() {
         return Frontend::WindowSystemType::Windows;
     else if (platform_name == QStringLiteral("xcb"))
         return Frontend::WindowSystemType::X11;
-    else if (platform_name == QStringLiteral("wayland"))
+    else if (platform_name == QStringLiteral("wayland") ||
+             platform_name == QStringLiteral("wayland-egl"))
         return Frontend::WindowSystemType::Wayland;
     else if (platform_name == QStringLiteral("cocoa") || platform_name == QStringLiteral("ios"))
         return Frontend::WindowSystemType::MacOS;
@@ -413,7 +420,8 @@ GRenderWindow::GRenderWindow(QWidget* parent_, EmuThread* emu_thread_, Core::Sys
     setLayout(layout);
 
     this->setMouseTracking(true);
-    strict_context_required = QGuiApplication::platformName() == QStringLiteral("wayland");
+    strict_context_required = QGuiApplication::platformName() == QStringLiteral("wayland") ||
+                              QGuiApplication::platformName() == QStringLiteral("wayland-egl");
 
     GMainWindow* parent = GetMainWindow();
     connect(this, &GRenderWindow::FirstFrameDisplayed, parent, &GMainWindow::OnLoadComplete);
