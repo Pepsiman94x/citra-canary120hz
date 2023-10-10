@@ -34,8 +34,6 @@ void Init(Frontend::EmuWindow& emu_window, Frontend::EmuWindow* secondary_window
     Pica::Init();
 
     const Settings::GraphicsAPI graphics_api = Settings::values.graphics_api.GetValue();
-    OpenGL::GLES = Settings::values.use_gles.GetValue();
-
     switch (graphics_api) {
     case Settings::GraphicsAPI::Software:
         g_renderer = std::make_unique<SwRenderer::RendererSoftware>(system, emu_window);

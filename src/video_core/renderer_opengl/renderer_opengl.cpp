@@ -80,6 +80,9 @@ RendererOpenGL::RendererOpenGL(Core::System& system, Frontend::EmuWindow& window
     : VideoCore::RendererBase{system, window, secondary_window}, driver{system.TelemetrySession()},
       rasterizer{system.Memory(), system.CustomTexManager(), *this, driver}, frame_dumper{system,
                                                                                           window} {
+    // TODO: Eliminate this global state and replace with driver references.
+    OpenGL::GLES = driver.IsOpenGLES();
+
     const bool has_debug_tool = driver.HasDebugTool();
     window.mailbox = std::make_unique<OGLTextureMailbox>(has_debug_tool);
     if (secondary_window) {
@@ -459,7 +462,7 @@ void RendererOpenGL::ConfigureFramebufferTexture(TextureInfo& texture,
     case GPU::Regs::PixelFormat::RGBA8:
         internal_format = GL_RGBA;
         texture.gl_format = GL_RGBA;
-        texture.gl_type = GLES ? GL_UNSIGNED_BYTE : GL_UNSIGNED_INT_8_8_8_8;
+        texture.gl_type = driver.IsOpenGLES() ? GL_UNSIGNED_BYTE : GL_UNSIGNED_INT_8_8_8_8;
         break;
 
     case GPU::Regs::PixelFormat::RGB8:
@@ -470,7 +473,7 @@ void RendererOpenGL::ConfigureFramebufferTexture(TextureInfo& texture,
         internal_format = GL_RGB;
 
         // GLES Dosen't support BGR , Use RGB instead
-        texture.gl_format = GLES ? GL_RGB : GL_BGR;
+        texture.gl_format = driver.IsOpenGLES() ? GL_RGB : GL_BGR;
         texture.gl_type = GL_UNSIGNED_BYTE;
         break;
 
