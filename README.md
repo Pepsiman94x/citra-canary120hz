@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6942](https://github.com/citra-emu/citra//pull/6942) | [`f6cac892e`](https://github.com/citra-emu/citra//pull/6942/files) | shader: Fix address register offset behavior in x64 Jit | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7035](https://github.com/citra-emu/citra//pull/7035) | [`0410c2bf5`](https://github.com/citra-emu/citra//pull/7035/files) | Implement more HTTP:C functionality | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7051](https://github.com/citra-emu/citra//pull/7051) | [`d2af151c0`](https://github.com/citra-emu/citra//pull/7051/files) | Add missing FS:USER functions | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7058](https://github.com/citra-emu/citra//pull/7058) | [`121f8c68d`](https://github.com/citra-emu/citra//pull/7058/files) | vk_instance: Perform vulkan logging as early as possible | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
