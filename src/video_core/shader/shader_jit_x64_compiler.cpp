@@ -232,21 +232,45 @@ void JitShader::Compile_SwizzleSrc(Instruction instr, unsigned src_num, SourceRe
         address_register_index = instr.common.address_register_index;
     }
 
-    if (src_num == offset_src && address_register_index != 0) {
+    if (src_reg.GetRegisterType() == RegisterType::FloatUniform && src_num == offset_src &&
+        address_register_index != 0) {
+        Xbyak::Reg64 address_reg;
         switch (address_register_index) {
-        case 1: // address offset 1
-            movaps(dest, xword[src_ptr + ADDROFFS_REG_0 + src_offset_disp]);
+        case 1:
+            address_reg = ADDROFFS_REG_0;
             break;
-        case 2: // address offset 2
-            movaps(dest, xword[src_ptr + ADDROFFS_REG_1 + src_offset_disp]);
+        case 2:
+            address_reg = ADDROFFS_REG_1;
             break;
-        case 3: // address offset 3
-            movaps(dest, xword[src_ptr + LOOPCOUNT_REG.cvt64() + src_offset_disp]);
+        case 3:
+            address_reg = LOOPCOUNT_REG.cvt64();
             break;
         default:
             UNREACHABLE();
             break;
         }
+        // s32 offset = address_reg >= -128 && address_reg <= 127 ? address_reg : 0;
+        // u32 index = (src_reg.GetIndex() + offset) & 0x7f;
+
+        // First we add 128 to address_reg so the first comparison is turned to
+        // address_reg >= 0 && address_reg < 256 which can be performed with
+        // a single unsigned comparison (cmovb)
+        lea(eax, ptr[address_reg + 128]);
+        mov(ebx, src_reg.GetIndex());
+        mov(ecx, address_reg.cvt32());
+        add(ecx, ebx);
+        cmp(eax, 256);
+        cmovb(ebx, ecx);
+        and_(ebx, 0x7f);
+
+        // index > 95 ? vec4(1.0) : uniforms.f[index];
+        movaps(dest, ONE);
+        cmp(ebx, 95);
+        Label load_end;
+        jg(load_end);
+        shl(rbx, 4);
+        movaps(dest, xword[src_ptr + rbx]);
+        L(load_end);
     } else {
         // Load the source
         movaps(dest, xword[src_ptr + src_offset_disp]);
@@ -590,24 +614,14 @@ void JitShader::Compile_MOVA(Instruction instr) {
         // Move and sign-extend high 32 bits
         shr(rax, 32);
         movsxd(ADDROFFS_REG_1, eax);
-
-        // Multiply by 16 to be used as an offset later
-        shl(ADDROFFS_REG_0, 4);
-        shl(ADDROFFS_REG_1, 4);
     } else {
         if (swiz.DestComponentEnabled(0)) {
             // Move and sign-extend low 32 bits
             movsxd(ADDROFFS_REG_0, eax);
-
-            // Multiply by 16 to be used as an offset later
-            shl(ADDROFFS_REG_0, 4);
         } else if (swiz.DestComponentEnabled(1)) {
             // Move and sign-extend high 32 bits
             shr(rax, 32);
             movsxd(ADDROFFS_REG_1, eax);
-
-            // Multiply by 16 to be used as an offset later
-            shl(ADDROFFS_REG_1, 4);
         }
     }
 }
