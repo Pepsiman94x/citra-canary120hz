@@ -786,6 +786,7 @@ void GMainWindow::ConnectWidgetEvents() {
     connect(this, &GMainWindow::UpdateProgress, this, &GMainWindow::OnUpdateProgress);
     connect(this, &GMainWindow::CIAInstallReport, this, &GMainWindow::OnCIAInstallReport);
     connect(this, &GMainWindow::CIAInstallFinished, this, &GMainWindow::OnCIAInstallFinished);
+    connect(this, &GMainWindow::UninstallReport, this, &GMainWindow::OnUninstallReport);
     connect(this, &GMainWindow::UpdateThemedIcons, multiplayer_state,
             &MultiplayerState::UpdateThemedIcons);
 }
@@ -1748,6 +1749,21 @@ void GMainWindow::OnCIAInstallFinished() {
     game_list->SetDirectoryWatcherEnabled(true);
     ui->action_Install_CIA->setEnabled(true);
     game_list->PopulateAsync(UISettings::values.game_dirs);
+}
+
+void GMainWindow::OnUninstallReport(UninstallStatus status, QString name) {
+    switch (status) {
+    case UninstallStatus::Started:
+        this->statusBar()->showMessage(tr("Uninstalling %1").arg(name));
+        break;
+    case UninstallStatus::Succeeded:
+        this->statusBar()->showMessage(tr("%1 has been uninstalled successfully.").arg(name));
+        break;
+    case UninstallStatus::Failed:
+        QMessageBox::critical(this, tr("Unable to uninstall title"),
+                              tr("Uninstall of '%1' failed.").arg(name));
+        break;
+    }
 }
 
 void GMainWindow::OnMenuRecentFile() {

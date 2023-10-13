@@ -73,6 +73,8 @@ namespace Service::AM {
 enum class InstallStatus : u32;
 }
 
+enum UninstallStatus { Started, Succeeded, Failed };
+
 class GMainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -127,6 +129,8 @@ signals:
     void CIAInstallFinished();
     // Signal that tells widgets to update icons to use the current theme
     void UpdateThemedIcons();
+
+    void UninstallReport(UninstallStatus status, QString name);
 
 private:
     void InitializeWidgets();
@@ -218,6 +222,7 @@ private slots:
     void OnUpdateProgress(std::size_t written, std::size_t total);
     void OnCIAInstallReport(Service::AM::InstallStatus status, QString filepath);
     void OnCIAInstallFinished();
+    void OnUninstallReport(UninstallStatus status, QString name);
     void OnMenuRecentFile();
     void OnConfigure();
     void OnLoadAmiibo();
