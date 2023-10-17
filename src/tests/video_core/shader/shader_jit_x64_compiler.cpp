@@ -385,6 +385,54 @@ TEST_CASE("RSQ", "[video_core][shader][shader_jit]") {
     REQUIRE(shader.Run({0.0625f}).x == Catch::Approx(4.0f).margin(0.004f));
 }
 
+TEST_CASE("Address Register Offset", "[video_core][shader][shader_jit]") {
+    const auto sh_input = SourceRegister::MakeInput(0);
+    const auto sh_c40 = SourceRegister::MakeFloat(40);
+    const auto sh_output = DestRegister::MakeOutput(0);
+
+    auto shader = ShaderTest({
+        // mova a0.x, sh_input.x
+        {OpCode::Id::MOVA, DestRegister{}, "x", sh_input, "x", SourceRegister{}, "", nihstro::InlineAsm::RelativeAddress::A1},
+        // mov sh_output.xyz, c40[a0.x].xyz
+        {OpCode::Id::MOV, sh_output, "xyzw", sh_c40, "xyzw", SourceRegister{}, "", nihstro::InlineAsm::RelativeAddress::A1},
+        {OpCode::Id::END},
+    });
+
+    // Prepare shader uniforms
+    const bool inverted = true;
+    std::array<Common::Vec4f, 96> f_uniforms;
+    for (u32 i = 0; i < 0x80; i++) {
+        if (i >= 0x00 && i < 0x60) {
+            const u32 base = inverted ? (0x60 - i) : i;
+            const auto color = (base * 2.f) / 255.0f;
+            const auto color_f24 = Pica::f24::FromFloat32(color);
+            shader.shader_setup->uniforms.f[i] = {color_f24, color_f24, color_f24, Pica::f24::One()};
+            f_uniforms[i] = {color, color, color, 1.f};
+        } else if (i >= 0x60 && i < 0x70) {
+            const u8 color = static_cast<u8>((i - 0x60) * 0x10);
+            shader.shader_setup->uniforms.i[i - 0x60] = {color, color, color, 255};
+        } else if (i >= 0x70 && i < 0x80) {
+            shader.shader_setup->uniforms.b[i - 0x70] = i >= 0x78;
+        }
+    }
+
+    static constexpr auto ONE_VEC = Common::Vec4f{1.f, 1.f, 1.f, 1.f};
+    REQUIRE(shader.Run(0.f) == f_uniforms[40]);
+    REQUIRE(shader.Run(13.f) == f_uniforms[53]);
+    REQUIRE(shader.Run(50.f) == f_uniforms[90]);
+    REQUIRE(shader.Run(60.f) == ONE_VEC);
+    REQUIRE(shader.Run(74.f) == ONE_VEC);
+    REQUIRE(shader.Run(87.f) == ONE_VEC);
+    REQUIRE(shader.Run(88.f) == f_uniforms[0]);
+    REQUIRE(shader.Run(128.f) == f_uniforms[40]);
+    REQUIRE(shader.Run(-40.f) == f_uniforms[0]);
+    REQUIRE(shader.Run(-42.f) == ONE_VEC);
+    REQUIRE(shader.Run(-70.f) == ONE_VEC);
+    REQUIRE(shader.Run(-73.f) == f_uniforms[95]);
+    REQUIRE(shader.Run(-127.f) == f_uniforms[41]);
+    REQUIRE(shader.Run(-129.f) == f_uniforms[40]);
+}
+
 // TODO: Requires fix from https://github.com/neobrain/nihstro/issues/68
 // TEST_CASE("MAD", "[video_core][shader][shader_jit]") {
 //     const auto sh_input1 = SourceRegister::MakeInput(0);
