@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7002](https://github.com/citra-emu/citra//pull/7002) | [`65e586e84`](https://github.com/citra-emu/citra//pull/7002/files) | video_core: Implement an arm64 shader-jit backend | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [7051](https://github.com/citra-emu/citra//pull/7051) | [`d2af151c0`](https://github.com/citra-emu/citra//pull/7051/files) | Add missing FS:USER functions | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7089](https://github.com/citra-emu/citra//pull/7089) | [`af219eb87`](https://github.com/citra-emu/citra//pull/7089/files) | Implement RomFS cache and async reads. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
