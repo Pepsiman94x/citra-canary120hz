@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7002](https://github.com/citra-emu/citra//pull/7002) | [`087389783`](https://github.com/citra-emu/citra//pull/7002/files) | video_core: Implement an arm64 shader-jit backend | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [7093](https://github.com/citra-emu/citra//pull/7093) | [`7b35cd9b9`](https://github.com/citra-emu/citra//pull/7093/files) | video_core: Refactor GLSL fragment emitter | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7096](https://github.com/citra-emu/citra//pull/7096) | [`0e9d5cbd5`](https://github.com/citra-emu/citra//pull/7096/files) | kernel: Add ticks to low priority threads that arbitrate zero threads | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7097](https://github.com/citra-emu/citra//pull/7097) | [`79c70307f`](https://github.com/citra-emu/citra//pull/7097/files) | game_list: Treat demos as applications | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7098](https://github.com/citra-emu/citra//pull/7098) | [`a201ef3fd`](https://github.com/citra-emu/citra//pull/7098/files) | audio_core: Replace AAC decoders with single FAAD2-based decoder. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7103](https://github.com/citra-emu/citra//pull/7103) | [`b70c53b41`](https://github.com/citra-emu/citra//pull/7103/files) | vk_stream_buf: Allow dedicated allocations | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
