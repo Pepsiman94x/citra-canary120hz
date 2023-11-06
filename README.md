@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7093](https://github.com/citra-emu/citra//pull/7093) | [`7b35cd9b9`](https://github.com/citra-emu/citra//pull/7093/files) | video_core: Refactor GLSL fragment emitter | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7115](https://github.com/citra-emu/citra//pull/7115) | [`bf1b693e9`](https://github.com/citra-emu/citra//pull/7115/files) | android: Use case insensitivity in DocumentsTree | [JosJuice](https://github.com/JosJuice/) | Yes |
+| [7117](https://github.com/citra-emu/citra//pull/7117) | [`ef9773484`](https://github.com/citra-emu/citra//pull/7117/files) | frontend: Use inverted use_gles as a fallback for GL initialization. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7119](https://github.com/citra-emu/citra//pull/7119) | [`c47ebb85d`](https://github.com/citra-emu/citra//pull/7119/files) | arm: De-virtualize ThreadContext | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7120](https://github.com/citra-emu/citra//pull/7120) | [`ddfdffd04`](https://github.com/citra-emu/citra//pull/7120/files) | build: Fortify non-MSVC builds. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7121](https://github.com/citra-emu/citra//pull/7121) | [`6f96e9846`](https://github.com/citra-emu/citra//pull/7121/files) | input_common: Set SDL hints to enable DualShock 4 / DualSense motion. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
