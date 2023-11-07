@@ -1,3 +1,21 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7115](https://github.com/citra-emu/citra//pull/7115) | [`bf1b693e9`](https://github.com/citra-emu/citra//pull/7115/files) | android: Use case insensitivity in DocumentsTree | [JosJuice](https://github.com/JosJuice/) | Yes |
+| [7119](https://github.com/citra-emu/citra//pull/7119) | [`c47ebb85d`](https://github.com/citra-emu/citra//pull/7119/files) | arm: De-virtualize ThreadContext | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7120](https://github.com/citra-emu/citra//pull/7120) | [`ddfdffd04`](https://github.com/citra-emu/citra//pull/7120/files) | build: Fortify non-MSVC builds. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7121](https://github.com/citra-emu/citra//pull/7121) | [`6f96e9846`](https://github.com/citra-emu/citra//pull/7121/files) | input_common: Set SDL hints to enable DualShock 4 / DualSense motion. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7122](https://github.com/citra-emu/citra//pull/7122) | [`49e02325d`](https://github.com/citra-emu/citra//pull/7122/files) | shader_jit_a64: Optimize `MOVA` dest-enable | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [7126](https://github.com/citra-emu/citra//pull/7126) | [`8e56c42d4`](https://github.com/citra-emu/citra//pull/7126/files) |  video_core: Perform quaternion correction and interpolation in fragment shader using barycentric extension. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7128](https://github.com/citra-emu/citra//pull/7128) | [`19c3bcfe4`](https://github.com/citra-emu/citra//pull/7128/files) | externals: Update faad2 and remove SBR configuration workaround. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7129](https://github.com/citra-emu/citra//pull/7129) | [`3592b5b4e`](https://github.com/citra-emu/citra//pull/7129/files) | common/aarch64: Push/Pop pairs of registers at a time | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [7130](https://github.com/citra-emu/citra//pull/7130) | [`fd32a82b4`](https://github.com/citra-emu/citra//pull/7130/files) | rasterizer_cache: Avoid dumping render targets | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
