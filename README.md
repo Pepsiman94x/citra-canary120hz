@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7108](https://github.com/citra-emu/citra//pull/7108) | [`9cec2934b`](https://github.com/citra-emu/citra//pull/7108/files) | Android UI Overhaul Part 1 | [t895](https://github.com/t895/) | Yes |
+| [7121](https://github.com/citra-emu/citra//pull/7121) | [`6f96e9846`](https://github.com/citra-emu/citra//pull/7121/files) | input_common: Set SDL hints to enable DualShock 4 / DualSense motion. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7126](https://github.com/citra-emu/citra//pull/7126) | [`e47acf054`](https://github.com/citra-emu/citra//pull/7126/files) |  video_core: Perform quaternion correction and interpolation in fragment shader using barycentric extension. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7129](https://github.com/citra-emu/citra//pull/7129) | [`3592b5b4e`](https://github.com/citra-emu/citra//pull/7129/files) | common/aarch64: Push/Pop pairs of registers at a time | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
