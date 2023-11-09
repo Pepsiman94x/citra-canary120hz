@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -29,6 +30,7 @@ import org.citra.citra_emu.utils.Log;
 
 import java.util.Objects;
 
+@Keep
 public final class SoftwareKeyboard {
     /// Corresponds to Frontend::ButtonConfig
     private interface ButtonConfig {
@@ -57,6 +59,7 @@ public final class SoftwareKeyboard {
         EmptyInputNotAllowed,
     }
 
+    @Keep
     public static class KeyboardConfig implements java.io.Serializable {
         public int button_config;
         public int max_text_length;
@@ -109,14 +112,14 @@ public final class SoftwareKeyboard {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.leftMargin = params.rightMargin =
-                    CitraApplication.getAppContext().getResources().getDimensionPixelSize(
+                    CitraApplication.Companion.getAppContext().getResources().getDimensionPixelSize(
                             R.dimen.dialog_margin);
 
             KeyboardConfig config = Objects.requireNonNull(
                     (KeyboardConfig) Objects.requireNonNull(getArguments()).getSerializable("config"));
 
             // Set up the input
-            EditText editText = new EditText(CitraApplication.getAppContext());
+            EditText editText = new EditText(CitraApplication.Companion.getAppContext());
             editText.setHint(config.hint_text);
             editText.setSingleLine(!config.multiline_mode);
             editText.setLayoutParams(params);
@@ -256,7 +259,7 @@ public final class SoftwareKeyboard {
 
     public static void ShowError(String error) {
         NativeLibrary.displayAlertMsg(
-                CitraApplication.getAppContext().getResources().getString(R.string.software_keyboard),
+                CitraApplication.Companion.getAppContext().getResources().getString(R.string.software_keyboard),
                 error, false);
     }
 
