@@ -1,3 +1,19 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7132](https://github.com/citra-emu/citra//pull/7132) | [`5e0f8698a`](https://github.com/citra-emu/citra//pull/7132/files) | renderer_vulkan: Import host memory for screenshots | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [7134](https://github.com/citra-emu/citra//pull/7134) | [`d9506d3ea`](https://github.com/citra-emu/citra//pull/7134/files) | mic: Refactor microphone state and management. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7136](https://github.com/citra-emu/citra//pull/7136) | [`1be7eb3f9`](https://github.com/citra-emu/citra//pull/7136/files) | shader_jit_a64_compiler: Improve Compile_SwizzleSrc | [merryhime](https://github.com/merryhime/) | Yes |
+| [7137](https://github.com/citra-emu/citra//pull/7137) | [`4ddf8aa6e`](https://github.com/citra-emu/citra//pull/7137/files) | shader_jit_a64_compiler: Improve MAX, MIN | [merryhime](https://github.com/merryhime/) | Yes |
+| [7142](https://github.com/citra-emu/citra//pull/7142) | [`f729fdfa5`](https://github.com/citra-emu/citra//pull/7142/files) | renderer_vulkan: Optimize descriptor binding | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [7143](https://github.com/citra-emu/citra//pull/7143) | [`721884389`](https://github.com/citra-emu/citra//pull/7143/files) | hw/aes: Clean up key generator. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7146](https://github.com/citra-emu/citra//pull/7146) | [`f51e2db8f`](https://github.com/citra-emu/citra//pull/7146/files) | assert/logging: Stop the logging thread and flush the backends before… | [SachinVin](https://github.com/SachinVin/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
