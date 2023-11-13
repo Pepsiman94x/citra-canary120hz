@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7143](https://github.com/citra-emu/citra//pull/7143) | [`721884389`](https://github.com/citra-emu/citra//pull/7143/files) | hw/aes: Clean up key generator. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7147](https://github.com/citra-emu/citra//pull/7147) | [`b31dea661`](https://github.com/citra-emu/citra//pull/7147/files) | Android UI Overhaul Part 2 | [t895](https://github.com/t895/) | Yes |
+| [7152](https://github.com/citra-emu/citra//pull/7152) | [`3d58a14b2`](https://github.com/citra-emu/citra//pull/7152/files) | spv_fs_shader_gen: Implement quaternion correction with barycentric extension | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7153](https://github.com/citra-emu/citra//pull/7153) | [`05aae5f7f`](https://github.com/citra-emu/citra//pull/7153/files) | spv_fs_shader_gen: Remove OpTypeSampledImage from texture buffers | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7158](https://github.com/citra-emu/citra//pull/7158) | [`f2d22b4bb`](https://github.com/citra-emu/citra//pull/7158/files) | Map MappedBuffer guard pages in a single operation. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7159](https://github.com/citra-emu/citra//pull/7159) | [`035b8dcc3`](https://github.com/citra-emu/citra//pull/7159/files) | core: Make running_core always match kernel current_cpu | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
