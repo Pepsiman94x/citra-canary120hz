@@ -757,4 +757,16 @@ jboolean Java_org_citra_citra_1emu_NativeLibrary_getIsSystemSetupNeeded(
     return cfg->IsSystemSetupNeeded();
 }
 
+void Java_org_citra_citra_1emu_NativeLibrary_setUsername([[maybe_unused]] JNIEnv* env,
+                                                         [[maybe_unused]] jobject obj,
+                                                         jstring username) {
+    cfg->SetUsername(Common::UTF8ToUTF16(GetJString(env, username)));
+    cfg->UpdateConfigNANDSavegame();
+}
+
+jstring Java_org_citra_citra_1emu_NativeLibrary_getUsername([[maybe_unused]] JNIEnv* env,
+                                                            [[maybe_unused]] jobject obj) {
+    return ToJString(env, Common::UTF16ToUTF8(cfg->GetUsername()));
+}
+
 } // extern "C"
