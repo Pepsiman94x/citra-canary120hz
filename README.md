@@ -1,3 +1,20 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7118](https://github.com/citra-emu/citra//pull/7118) | [`f3603629c`](https://github.com/citra-emu/citra//pull/7118/files) | code: Add texture sampling option | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7147](https://github.com/citra-emu/citra//pull/7147) | [`eaef00cd9`](https://github.com/citra-emu/citra//pull/7147/files) | Android UI Overhaul Part 2 | [t895](https://github.com/t895/) | Yes |
+| [7158](https://github.com/citra-emu/citra//pull/7158) | [`f2d22b4bb`](https://github.com/citra-emu/citra//pull/7158/files) | Map MappedBuffer guard pages in a single operation. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7159](https://github.com/citra-emu/citra//pull/7159) | [`035b8dcc3`](https://github.com/citra-emu/citra//pull/7159/files) | core: Make running_core always match kernel current_cpu | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7160](https://github.com/citra-emu/citra//pull/7160) | [`0bf7db360`](https://github.com/citra-emu/citra//pull/7160/files) | hle: Fix session limits for srv: and soc:U. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7161](https://github.com/citra-emu/citra//pull/7161) | [`7919cfd0e`](https://github.com/citra-emu/citra//pull/7161/files) | Unlock RW access to opened files on windows | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7162](https://github.com/citra-emu/citra//pull/7162) | [`ff3ea0f1b`](https://github.com/citra-emu/citra//pull/7162/files) | Download TWL titles from NUS and list them in AM. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7164](https://github.com/citra-emu/citra//pull/7164) | [`b48c94b5d`](https://github.com/citra-emu/citra//pull/7164/files) | Implement PS:GetRandomBytes and use openssl for random bytes | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
