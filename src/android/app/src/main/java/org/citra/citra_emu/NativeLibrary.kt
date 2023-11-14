@@ -523,6 +523,10 @@ object NativeLibrary {
 
     external fun getIsSystemSetupNeeded(): Boolean
 
+    external fun setUsername(username: String)
+
+    external fun getUsername(): String
+
     @Keep
     @JvmStatic
     fun createFile(directory: String, filename: String): Boolean =
