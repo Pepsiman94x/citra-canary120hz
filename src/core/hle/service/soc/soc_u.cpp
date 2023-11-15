@@ -541,7 +541,7 @@ struct CTRPollFD {
         auto iter = socu.open_sockets.find(fd.fd);
         result.fd = (iter != socu.open_sockets.end()) ? iter->second.socket_fd : 0;
         if (iter == socu.open_sockets.end()) {
-            LOG_ERROR(Service_SOC, "Invalid socket handle: {}", fd.fd);
+            LOG_ERROR(Service_SOC, "Invalid or closed socket handle: {}", fd.fd);
         }
         return result;
     }
@@ -779,9 +779,10 @@ void SOC_U::Bind(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     u32 len = rp.Pop<u32>();
@@ -808,9 +809,10 @@ void SOC_U::Fcntl(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     u32 ctr_cmd = rp.Pop<u32>();
@@ -842,9 +844,10 @@ void SOC_U::Listen(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     u32 backlog = rp.Pop<u32>();
@@ -867,9 +870,10 @@ void SOC_U::Accept(Kernel::HLERequestContext& ctx) {
     const auto socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     const auto max_addr_len = rp.Pop<u32>();
@@ -923,9 +927,10 @@ void SOC_U::Close(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     rp.PopPID();
@@ -949,9 +954,10 @@ void SOC_U::SendToOther(Kernel::HLERequestContext& ctx) {
     const u32 socket_handle = rp.Pop<u32>();
     const auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     const u32 len = rp.Pop<u32>();
@@ -1013,9 +1019,10 @@ void SOC_U::SendTo(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     u32 len = rp.Pop<u32>();
@@ -1072,9 +1079,10 @@ void SOC_U::RecvFromOther(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     u32 len = rp.Pop<u32>();
@@ -1179,9 +1187,10 @@ void SOC_U::RecvFrom(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     u32 len = rp.Pop<u32>();
@@ -1365,9 +1374,10 @@ void SOC_U::GetSockName(Kernel::HLERequestContext& ctx) {
     const auto socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     const auto max_addr_len = rp.Pop<u32>();
@@ -1400,9 +1410,10 @@ void SOC_U::Shutdown(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     s32 how = ShutdownHowToPlatform(rp.Pop<s32>());
@@ -1464,9 +1475,10 @@ void SOC_U::GetPeerName(Kernel::HLERequestContext& ctx) {
     const auto socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     const auto max_addr_len = rp.Pop<u32>();
@@ -1504,9 +1516,10 @@ void SOC_U::Connect(Kernel::HLERequestContext& ctx) {
     const auto socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     [[maybe_unused]] const auto input_addr_len = rp.Pop<u32>();
@@ -1557,9 +1570,10 @@ void SOC_U::GetSockOpt(Kernel::HLERequestContext& ctx) {
     u32 socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     const u32 level = rp.Pop<u32>();
@@ -1605,9 +1619,10 @@ void SOC_U::SetSockOpt(Kernel::HLERequestContext& ctx) {
     const auto socket_handle = rp.Pop<u32>();
     auto fd_info = open_sockets.find(socket_handle);
     if (fd_info == open_sockets.end()) {
-        LOG_ERROR(Service_SOC, "Invalid socket handle: {}", socket_handle);
-        IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-        rb.Push(ERR_INVALID_HANDLE);
+        LOG_DEBUG(Service_SOC, "Invalid or closed socket handle: {}", socket_handle);
+        IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+        rb.Push(RESULT_SUCCESS);
+        rb.Push(TranslateError(ERRNO(EBADF)));
         return;
     }
     const auto level = rp.Pop<u32>();
@@ -1790,6 +1805,18 @@ void SOC_U::GetNameInfoImpl(Kernel::HLERequestContext& ctx) {
     rb.PushStaticBuffer(std::move(serv), 1);
 }
 
+void SOC_U::AddGlobalSocket(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    [[maybe_unused]] const auto socket_handle = rp.Pop<u32>();
+
+    // We don't check that the socket handle is used
+    // by the process it is created in the first place
+    // so this function is a no-op.
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(RESULT_SUCCESS);
+}
+
 SOC_U::SOC_U() : ServiceFramework("soc:U", 18) {
     static const FunctionInfo functions[] = {
         // clang-format off
@@ -1825,7 +1852,7 @@ SOC_U::SOC_U() : ServiceFramework("soc:U", 18) {
         {0x001E, nullptr, "ICMPClose"},
         {0x001F, nullptr, "GetResolverInfo"},
         {0x0021, nullptr, "CloseSockets"},
-        {0x0023, nullptr, "AddGlobalSocket"},
+        {0x0023, &SOC_U::AddGlobalSocket, "AddGlobalSocket"},
         // clang-format on
     };
 

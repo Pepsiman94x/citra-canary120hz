@@ -121,6 +121,7 @@ private:
     void GetSockOpt(Kernel::HLERequestContext& ctx);
     void SetSockOpt(Kernel::HLERequestContext& ctx);
     void GetNetworkOpt(Kernel::HLERequestContext& ctx);
+    void AddGlobalSocket(Kernel::HLERequestContext& ctx);
 
     // Some platforms seem to have GetAddrInfo and GetNameInfo defined as macros,
     // so we have to use a different name here.
