@@ -75,13 +75,6 @@ static const std::array<int, Settings::NativeAnalog::NumAnalogs> default_analogs
     InputManager::N3DS_STICK_C,
 }};
 
-void Config::UpdateCFG() {
-    std::shared_ptr<Service::CFG::Module> cfg = std::make_shared<Service::CFG::Module>();
-    cfg->SetSystemLanguage(static_cast<Service::CFG::SystemLanguage>(
-        sdl2_config->GetInteger("System", "language", Service::CFG::SystemLanguage::LANGUAGE_EN)));
-    cfg->UpdateConfigNANDSavegame();
-}
-
 template <>
 void Config::ReadSetting(const std::string& group, Settings::Setting<std::string>& setting) {
     std::string setting_value = sdl2_config->Get(group, setting.GetLabel(), setting.GetDefault());
@@ -286,9 +279,6 @@ void Config::ReadValues() {
         sdl2_config->GetString("WebService", "web_api_url", "https://api.citra-emu.org");
     NetSettings::values.citra_username = sdl2_config->GetString("WebService", "citra_username", "");
     NetSettings::values.citra_token = sdl2_config->GetString("WebService", "citra_token", "");
-
-    // Update CFG file based on settings
-    UpdateCFG();
 }
 
 void Config::Reload() {
