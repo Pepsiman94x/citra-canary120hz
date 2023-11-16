@@ -1,3 +1,19 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7118](https://github.com/citra-emu/citra//pull/7118) | [`f3603629c`](https://github.com/citra-emu/citra//pull/7118/files) | code: Add texture sampling option | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7147](https://github.com/citra-emu/citra//pull/7147) | [`c4256049f`](https://github.com/citra-emu/citra//pull/7147/files) | Android UI Overhaul Part 2 | [t895](https://github.com/t895/) | Yes |
+| [7161](https://github.com/citra-emu/citra//pull/7161) | [`7919cfd0e`](https://github.com/citra-emu/citra//pull/7161/files) | Unlock RW access to opened files on windows | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7170](https://github.com/citra-emu/citra//pull/7170) | [`2e13bd785`](https://github.com/citra-emu/citra//pull/7170/files) | vk_pipeline_cache: Move SPIRV emittion to a worker thread | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7171](https://github.com/citra-emu/citra//pull/7171) | [`35d00031f`](https://github.com/citra-emu/citra//pull/7171/files) | Implement some missing/wrong AC functionality. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7172](https://github.com/citra-emu/citra//pull/7172) | [`99a5ad1a0`](https://github.com/citra-emu/citra//pull/7172/files) | Stub some missing AM Ticket functions | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7173](https://github.com/citra-emu/citra//pull/7173) | [`81b1fc2d8`](https://github.com/citra-emu/citra//pull/7173/files) | video_core: Merge tex0 and tex_cube | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
