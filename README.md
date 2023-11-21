@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7118](https://github.com/citra-emu/citra//pull/7118) | [`f3603629c`](https://github.com/citra-emu/citra//pull/7118/files) | code: Add texture sampling option | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7147](https://github.com/citra-emu/citra//pull/7147) | [`e90405ac9`](https://github.com/citra-emu/citra//pull/7147/files) | Android UI Overhaul Part 2 | [t895](https://github.com/t895/) | Yes |
+| [7169](https://github.com/citra-emu/citra//pull/7169) | [`5e78b0550`](https://github.com/citra-emu/citra//pull/7169/files) | Implement cfg UUID Clock Sequence | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7170](https://github.com/citra-emu/citra//pull/7170) | [`2e13bd785`](https://github.com/citra-emu/citra//pull/7170/files) | vk_pipeline_cache: Move SPIRV emittion to a worker thread | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
