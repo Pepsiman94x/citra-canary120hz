@@ -186,11 +186,6 @@
            </item>
            <item>
             <property name="text">
-             <string>Nearest Neighbor</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>ScaleForce</string>
             </property>
            </item>
@@ -199,11 +194,55 @@
              <string>xBRZ</string>
             </property>
            </item>
-            <item>
-              <property name="text">
-                <string>MMPX</string>
-              </property>
-            </item>
+           <item>
+            <property name="text">
+             <string>MMPX</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_texture_sampling" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="texture_sampling_label">
+           <property name="text">
+            <string>Texture Sampling</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="texture_sampling_combobox">
+           <item>
+            <property name="text">
+             <string>Auto</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Nearest Neighbor</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Linear</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>
