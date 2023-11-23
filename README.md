@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7176](https://github.com/citra-emu/citra//pull/7176) | [`cafe4b673`](https://github.com/citra-emu/citra//pull/7176/files) | Implement some missing SOC functionality | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7194](https://github.com/citra-emu/citra//pull/7194) | [`730c600af`](https://github.com/citra-emu/citra//pull/7194/files) | vk_pipeline_cache: Make pipeline cache reads more robust | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7201](https://github.com/citra-emu/citra//pull/7201) | [`81cf8345b`](https://github.com/citra-emu/citra//pull/7201/files) | audio_core: Only perform audio stretching if below full speed. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7202](https://github.com/citra-emu/citra//pull/7202) | [`322d73eeb`](https://github.com/citra-emu/citra//pull/7202/files) | openal: Enable AL_DIRECT_CHANNELS_SOFT when present. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
