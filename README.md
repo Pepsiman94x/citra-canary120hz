@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7176](https://github.com/citra-emu/citra//pull/7176) | [`cafe4b673`](https://github.com/citra-emu/citra//pull/7176/files) | Implement some missing SOC functionality | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7212](https://github.com/citra-emu/citra//pull/7212) | [`5747032be`](https://github.com/citra-emu/citra//pull/7212/files) | core: De-globalize HLE lock | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7213](https://github.com/citra-emu/citra//pull/7213) | [`571316c44`](https://github.com/citra-emu/citra//pull/7213/files) | build: Make MSVC builds more deterministic to aid caching. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7215](https://github.com/citra-emu/citra//pull/7215) | [`7ca446abc`](https://github.com/citra-emu/citra//pull/7215/files) | qt: Fix loading screen metadata retention when title has no metadata. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
