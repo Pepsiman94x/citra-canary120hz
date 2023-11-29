@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6883](https://github.com/citra-emu/citra//pull/6883) | [`b2c5f80a5`](https://github.com/citra-emu/citra//pull/6883/files) | boss: Implement Spotpass service (part 1) | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7176](https://github.com/citra-emu/citra//pull/7176) | [`cafe4b673`](https://github.com/citra-emu/citra//pull/7176/files) | Implement some missing SOC functionality | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7216](https://github.com/citra-emu/citra//pull/7216) | [`90d43bd89`](https://github.com/citra-emu/citra//pull/7216/files) | Android UI Overhaul Part 3 | [t895](https://github.com/t895/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
