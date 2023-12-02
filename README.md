@@ -1,3 +1,13 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7176](https://github.com/citra-emu/citra//pull/7176) | [`cafe4b673`](https://github.com/citra-emu/citra//pull/7176/files) | Implement some missing SOC functionality | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7221](https://github.com/citra-emu/citra//pull/7221) | [`8f054c47f`](https://github.com/citra-emu/citra//pull/7221/files) | kernel: Improve accuracy of KResourceLimit emulation | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
