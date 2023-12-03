@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7176](https://github.com/citra-emu/citra//pull/7176) | [`cafe4b673`](https://github.com/citra-emu/citra//pull/7176/files) | Implement some missing SOC functionality | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7221](https://github.com/citra-emu/citra//pull/7221) | [`8f054c47f`](https://github.com/citra-emu/citra//pull/7221/files) | kernel: Improve accuracy of KResourceLimit emulation | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7225](https://github.com/citra-emu/citra//pull/7225) | [`6a59d21bc`](https://github.com/citra-emu/citra//pull/7225/files) | shader_jit_a64: Use LDP/STP for address registers | [Wunkolo](https://github.com/Wunkolo/) | Yes |
+| [7231](https://github.com/citra-emu/citra//pull/7231) | [`ab39e5362`](https://github.com/citra-emu/citra//pull/7231/files) | file_sys: Add support for the BOSS ext save data archive. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
