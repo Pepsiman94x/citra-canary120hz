@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7176](https://github.com/citra-emu/citra//pull/7176) | [`cafe4b673`](https://github.com/citra-emu/citra//pull/7176/files) | Implement some missing SOC functionality | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7232](https://github.com/citra-emu/citra//pull/7232) | [`87dcb577d`](https://github.com/citra-emu/citra//pull/7232/files) | boss: Implement Spotpass service (part 1) | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7235](https://github.com/citra-emu/citra//pull/7235) | [`3cdb2b6f6`](https://github.com/citra-emu/citra//pull/7235/files) | Android UI Overhaul Part 4/4 | [t895](https://github.com/t895/) | Yes |
+| [7236](https://github.com/citra-emu/citra//pull/7236) | [`73fff1744`](https://github.com/citra-emu/citra//pull/7236/files) | apt: Stub ReplySleepQuery and ReplySleepNotificationComplete. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7237](https://github.com/citra-emu/citra//pull/7237) | [`42acdaa77`](https://github.com/citra-emu/citra//pull/7237/files) | fs: Stub ControlArchive. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
