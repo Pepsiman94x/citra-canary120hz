@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7171](https://github.com/citra-emu/citra//pull/7171) | [`2cf6852f8`](https://github.com/citra-emu/citra//pull/7171/files) | Implement some missing/wrong AC functionality. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7235](https://github.com/citra-emu/citra//pull/7235) | [`3cdb2b6f6`](https://github.com/citra-emu/citra//pull/7235/files) | Android UI Overhaul Part 4/4 | [t895](https://github.com/t895/) | Yes |
+| [7241](https://github.com/citra-emu/citra//pull/7241) | [`a4ea2b935`](https://github.com/citra-emu/citra//pull/7241/files) | feat(android-hotkeys): Introduce hotkey support for Android app and add missing hybrid layout | [jamfor352](https://github.com/jamfor352/) | Yes |
+| [7245](https://github.com/citra-emu/citra//pull/7245) | [`c59c94f79`](https://github.com/citra-emu/citra//pull/7245/files) | Port yuzu-emu/yuzu#11946: "Enable (Feral Interactive) Gamemode on Linux" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [7250](https://github.com/citra-emu/citra//pull/7250) | [`a0b83310e`](https://github.com/citra-emu/citra//pull/7250/files) | Add circle_pad_old_* to savestates. | [CasualPokePlayer](https://github.com/CasualPokePlayer/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
