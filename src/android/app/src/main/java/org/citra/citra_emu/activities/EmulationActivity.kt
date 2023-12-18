@@ -20,7 +20,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -32,13 +31,15 @@ import org.citra.citra_emu.R
 import org.citra.citra_emu.camera.StillImageCameraHelper.OnFilePickerResult
 import org.citra.citra_emu.contracts.OpenFileResultContract
 import org.citra.citra_emu.databinding.ActivityEmulationBinding
+import org.citra.citra_emu.features.hotkeys.HotkeyUtility
 import org.citra.citra_emu.features.settings.model.SettingsViewModel
 import org.citra.citra_emu.features.settings.model.view.InputBindingSetting
 import org.citra.citra_emu.fragments.MessageDialogFragment
 import org.citra.citra_emu.utils.ControllerMappingHelper
-import org.citra.citra_emu.utils.EmulationMenuSettings
 import org.citra.citra_emu.utils.FileBrowserHelper
 import org.citra.citra_emu.utils.ForegroundService
+import org.citra.citra_emu.utils.LifecycleUtil
+import org.citra.citra_emu.display.ScreenAdjustmentUtil
 import org.citra.citra_emu.utils.ThemeUtil
 import org.citra.citra_emu.viewmodel.EmulationViewModel
 
@@ -52,6 +53,8 @@ class EmulationActivity : AppCompatActivity() {
     private val emulationViewModel: EmulationViewModel by viewModels()
 
     private lateinit var binding: ActivityEmulationBinding
+    private lateinit var screenAdjustmentUtil: ScreenAdjustmentUtil
+    private lateinit var hotkeyUtility: HotkeyUtility
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeUtil.setTheme(this)
@@ -61,6 +64,8 @@ class EmulationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityEmulationBinding.inflate(layoutInflater)
+        screenAdjustmentUtil = ScreenAdjustmentUtil(windowManager)
+        hotkeyUtility = HotkeyUtility(screenAdjustmentUtil)
         setContentView(binding.root)
 
         val navHostFragment =
@@ -74,14 +79,13 @@ class EmulationActivity : AppCompatActivity() {
         enableFullscreenImmersive()
 
         // Override Citra core INI with the one set by our in game menu
-        NativeLibrary.swapScreens(
-            EmulationMenuSettings.swapScreens,
-            windowManager.defaultDisplay.rotation
-        )
+        screenAdjustmentUtil.swapScreen()
 
         // Start a foreground service to prevent the app from getting killed in the background
         foregroundService = Intent(this, ForegroundService::class.java)
         startForegroundService(foregroundService)
+
+        LifecycleUtil.addShutdownHook(hook = { this.finish() })
     }
 
     // On some devices, the system bars will not disappear on first boot or after some
@@ -187,6 +191,8 @@ class EmulationActivity : AppCompatActivity() {
                 if (event.keyCode == KeyEvent.KEYCODE_BACK) {
                     onBackPressed()
                 }
+
+                hotkeyUtility.handleHotkey(button)
 
                 // Normal key events.
                 NativeLibrary.ButtonState.PRESSED
