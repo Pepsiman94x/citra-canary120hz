@@ -20,6 +20,7 @@
 #include "jni/camera/ndk_camera.h"
 #include "jni/config.h"
 #include "jni/default_ini.h"
+#include "jni/id_cache.h"
 #include "jni/input_manager.h"
 #include "network/network_settings.h"
 
@@ -170,8 +171,9 @@ void Config::ReadValues() {
     ReadSetting("Renderer", Settings::values.bg_blue);
 
     // Layout
-    Settings::values.layout_option = static_cast<Settings::LayoutOption>(sdl2_config->GetInteger(
-        "Layout", "layout_option", static_cast<int>(Settings::LayoutOption::MobileLandscape)));
+    Settings::values.layout_option =
+            static_cast<Settings::LayoutOption>(IDCache::GetEnvForThread()->CallStaticIntMethod(
+                    IDCache::GetNativeLibraryClass(), IDCache::GetLandscapeScreenLayout()));
     ReadSetting("Layout", Settings::values.custom_layout);
     ReadSetting("Layout", Settings::values.custom_top_left);
     ReadSetting("Layout", Settings::values.custom_top_top);
