@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7171](https://github.com/citra-emu/citra//pull/7171) | [`249c3d2df`](https://github.com/citra-emu/citra//pull/7171/files) | Implement some missing/wrong AC functionality. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7241](https://github.com/citra-emu/citra//pull/7241) | [`483053a6b`](https://github.com/citra-emu/citra//pull/7241/files) | feat(android-hotkeys): Introduce hotkey support for Android app and add missing hybrid layout | [jamfor352](https://github.com/jamfor352/) | Yes |
+| [7272](https://github.com/citra-emu/citra//pull/7272) | [`afe5dfe8b`](https://github.com/citra-emu/citra//pull/7272/files) | video_core: Refactor GPU interface | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7273](https://github.com/citra-emu/citra//pull/7273) | [`77bb6a46a`](https://github.com/citra-emu/citra//pull/7273/files) | misc: Improve defaults for macOS and handling of missing audio backends. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
