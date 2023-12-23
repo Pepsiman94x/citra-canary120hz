@@ -4,18 +4,14 @@
 
 #include "common/logging/log.h"
 #include "video_core/primitive_assembly.h"
-#include "video_core/regs_pipeline.h"
-#include "video_core/shader/shader.h"
 
 namespace Pica {
 
-template <typename VertexType>
-PrimitiveAssembler<VertexType>::PrimitiveAssembler(PipelineRegs::TriangleTopology topology)
+PrimitiveAssembler::PrimitiveAssembler(PipelineRegs::TriangleTopology topology)
     : topology(topology) {}
 
-template <typename VertexType>
-void PrimitiveAssembler<VertexType>::SubmitVertex(const VertexType& vtx,
-                                                  const TriangleHandler& triangle_handler) {
+void PrimitiveAssembler::SubmitVertex(const OutputVertex& vtx,
+                                      const TriangleHandler& triangle_handler) {
     switch (topology) {
     case PipelineRegs::TriangleTopology::List:
     case PipelineRegs::TriangleTopology::Shader:
@@ -34,17 +30,18 @@ void PrimitiveAssembler<VertexType>::SubmitVertex(const VertexType& vtx,
 
     case PipelineRegs::TriangleTopology::Strip:
     case PipelineRegs::TriangleTopology::Fan:
-        if (strip_ready)
+        if (strip_ready) {
             triangle_handler(buffer[0], buffer[1], vtx);
+        }
 
         buffer[buffer_index] = vtx;
-
         strip_ready |= (buffer_index == 1);
 
-        if (topology == PipelineRegs::TriangleTopology::Strip)
+        if (topology == PipelineRegs::TriangleTopology::Strip) {
             buffer_index = !buffer_index;
-        else if (topology == PipelineRegs::TriangleTopology::Fan)
+        } else if (topology == PipelineRegs::TriangleTopology::Fan) {
             buffer_index = 1;
+        }
         break;
 
     default:
@@ -52,36 +49,5 @@ void PrimitiveAssembler<VertexType>::SubmitVertex(const VertexType& vtx,
         break;
     }
 }
-
-template <typename VertexType>
-void PrimitiveAssembler<VertexType>::SetWinding() {
-    winding = true;
-}
-
-template <typename VertexType>
-void PrimitiveAssembler<VertexType>::Reset() {
-    buffer_index = 0;
-    strip_ready = false;
-    winding = false;
-}
-
-template <typename VertexType>
-void PrimitiveAssembler<VertexType>::Reconfigure(PipelineRegs::TriangleTopology topology) {
-    Reset();
-    this->topology = topology;
-}
-
-template <typename VertexType>
-bool PrimitiveAssembler<VertexType>::IsEmpty() const {
-    return buffer_index == 0 && strip_ready == false;
-}
-
-template <typename VertexType>
-PipelineRegs::TriangleTopology PrimitiveAssembler<VertexType>::GetTopology() const {
-    return topology;
-}
-
-// explicitly instantiate use cases
-template struct PrimitiveAssembler<Shader::OutputVertex>;
 
 } // namespace Pica
