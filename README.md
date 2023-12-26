@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7171](https://github.com/citra-emu/citra//pull/7171) | [`249c3d2df`](https://github.com/citra-emu/citra//pull/7171/files) | Implement some missing/wrong AC functionality. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7272](https://github.com/citra-emu/citra//pull/7272) | [`981a9b3af`](https://github.com/citra-emu/citra//pull/7272/files) | video_core: Refactor GPU interface | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7283](https://github.com/citra-emu/citra//pull/7283) | [`e31599397`](https://github.com/citra-emu/citra//pull/7283/files) | boss: Implement some NsData header and read commands. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7284](https://github.com/citra-emu/citra//pull/7284) | [`fee0e0b0f`](https://github.com/citra-emu/citra//pull/7284/files) | cfg: Only select preferred region once per instance. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
