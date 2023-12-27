@@ -141,8 +141,8 @@ QString BreakPointModel::DebugContextEventToString(Pica::DebugContext::Event eve
 
 GraphicsBreakPointsWidget::GraphicsBreakPointsWidget(
     std::shared_ptr<Pica::DebugContext> debug_context, QWidget* parent)
-    : QDockWidget(tr("Pica Breakpoints"), parent), Pica::DebugContext::BreakPointObserver(
-                                                       debug_context) {
+    : QDockWidget(tr("Pica Breakpoints"), parent),
+      Pica::DebugContext::BreakPointObserver(debug_context) {
     setObjectName(QStringLiteral("PicaBreakPointsWidget"));
 
     status_text = new QLabel(tr("Emulation running"));
@@ -191,12 +191,12 @@ GraphicsBreakPointsWidget::GraphicsBreakPointsWidget(
     setWidget(main_widget);
 }
 
-void GraphicsBreakPointsWidget::OnPicaBreakPointHit(Event event, void* data) {
+void GraphicsBreakPointsWidget::OnPicaBreakPointHit(Event event, const void* data) {
     // Process in GUI thread
     emit BreakPointHit(event, data);
 }
 
-void GraphicsBreakPointsWidget::OnBreakPointHit(Pica::DebugContext::Event event, void* data) {
+void GraphicsBreakPointsWidget::OnBreakPointHit(Pica::DebugContext::Event event, const void* data) {
     status_text->setText(tr("Emulation halted at breakpoint"));
     resume_button->setEnabled(true);
 }
