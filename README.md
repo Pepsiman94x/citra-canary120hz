@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7171](https://github.com/citra-emu/citra//pull/7171) | [`249c3d2df`](https://github.com/citra-emu/citra//pull/7171/files) | Implement some missing/wrong AC functionality. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7272](https://github.com/citra-emu/citra//pull/7272) | [`622ac9fca`](https://github.com/citra-emu/citra//pull/7272/files) | video_core: Refactor GPU interface | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7295](https://github.com/citra-emu/citra//pull/7295) | [`2f59a380c`](https://github.com/citra-emu/citra//pull/7295/files) | kernel: Add some missing state to process serialization. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
