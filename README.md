@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7242](https://github.com/citra-emu/citra//pull/7242) | [`617e8ef96`](https://github.com/citra-emu/citra//pull/7242/files) | kernel: Update to use atmosphere macros and correct Result | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7291](https://github.com/citra-emu/citra//pull/7291) | [`489a5e1fb`](https://github.com/citra-emu/citra//pull/7291/files) | cheats: Use global cheat engine | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7300](https://github.com/citra-emu/citra//pull/7300) | [`19ecf6d9c`](https://github.com/citra-emu/citra//pull/7300/files) | framebuffer_layout.cpp mini refactor | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [7301](https://github.com/citra-emu/citra//pull/7301) | [`13e1d8582`](https://github.com/citra-emu/citra//pull/7301/files) | kernel: Fix freeing shared memory with wrong region. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
