@@ -1,3 +1,13 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7291](https://github.com/citra-emu/citra//pull/7291) | [`489a5e1fb`](https://github.com/citra-emu/citra//pull/7291/files) | cheats: Use global cheat engine | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7300](https://github.com/citra-emu/citra//pull/7300) | [`19ecf6d9c`](https://github.com/citra-emu/citra//pull/7300/files) | framebuffer_layout.cpp mini refactor | [SachinVin](https://github.com/SachinVin/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
