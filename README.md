@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7300](https://github.com/citra-emu/citra//pull/7300) | [`19ecf6d9c`](https://github.com/citra-emu/citra//pull/7300/files) | framebuffer_layout.cpp mini refactor | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [7304](https://github.com/citra-emu/citra//pull/7304) | [`b4190c32f`](https://github.com/citra-emu/citra//pull/7304/files) | qt: Add support for opening files directly on macOS. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7305](https://github.com/citra-emu/citra//pull/7305) | [`daee14349`](https://github.com/citra-emu/citra//pull/7305/files) | frontend: Fix missing persistence for texture sampling setting. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7307](https://github.com/citra-emu/citra//pull/7307) | [`a65316b29`](https://github.com/citra-emu/citra//pull/7307/files) | Port yuzu-emu/yuzu#9644: "add volume quicksetting with volume slider" | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
