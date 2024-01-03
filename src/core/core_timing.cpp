@@ -3,6 +3,7 @@
 // Refer to the license.txt file included.
 
 #include <algorithm>
+#include <random>
 #include <tuple>
 #include "common/assert.h"
 #include "common/logging/log.h"
@@ -20,9 +21,15 @@ bool Timing::Event::operator<(const Timing::Event& right) const {
 }
 
 Timing::Timing(std::size_t num_cores, u32 cpu_clock_percentage) {
+    // Generate non-zero base tick count to simulate time the system ran before launching the game.
+    // This accounts for games that rely on the system tick to seed randomness.
+    // Bounded to 32 bits to make sure we don't generate too high of a counter and risk overflowing.
+    std::mt19937 random_gen(std::random_device{}());
+    const u32 base_ticks = random_gen();
+
     timers.resize(num_cores);
     for (std::size_t i = 0; i < num_cores; ++i) {
-        timers[i] = std::make_shared<Timer>();
+        timers[i] = std::make_shared<Timer>(base_ticks);
     }
     UpdateClockSpeed(cpu_clock_percentage);
     current_timer = timers[0].get();
@@ -146,7 +153,7 @@ std::shared_ptr<Timing::Timer> Timing::GetTimer(std::size_t cpu_id) {
     return timers[cpu_id];
 }
 
-Timing::Timer::Timer() = default;
+Timing::Timer::Timer(s64 base_ticks) : executed_ticks(base_ticks) {}
 
 Timing::Timer::~Timer() {
     MoveEvents();

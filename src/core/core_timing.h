@@ -185,7 +185,7 @@ public:
 
     class Timer {
     public:
-        Timer();
+        Timer(s64 base_ticks = 0);
         ~Timer();
 
         s64 GetMaxSliceLength() const;
