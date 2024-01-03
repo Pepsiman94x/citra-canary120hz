@@ -1,3 +1,13 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7307](https://github.com/citra-emu/citra//pull/7307) | [`a65316b29`](https://github.com/citra-emu/citra//pull/7307/files) | Port yuzu-emu/yuzu#9644: "add volume quicksetting with volume slider" | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7309](https://github.com/citra-emu/citra//pull/7309) | [`28074f68f`](https://github.com/citra-emu/citra//pull/7309/files) | core_timing: Apply random base ticks value on startup. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
