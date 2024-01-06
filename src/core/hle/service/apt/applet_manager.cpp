@@ -710,7 +710,7 @@ Result AppletManager::SendDspSleep(AppletId from_applet_id,
             .sender_id = from_applet_id,
             .destination_id = AppletId::Application,
             .signal = SignalType::DspSleep,
-            .object = std::move(object),
+            .object = object,
         });
     }
 
@@ -725,7 +725,7 @@ Result AppletManager::SendDspSleep(AppletId from_applet_id,
             .sender_id = from_applet_id,
             .destination_id = sys_app_id,
             .signal = SignalType::DspSleep,
-            .object = std::move(object),
+            .object = object,
         });
     }
 
