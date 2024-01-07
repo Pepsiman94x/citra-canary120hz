@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7309](https://github.com/citra-emu/citra//pull/7309) | [`0d19236f7`](https://github.com/citra-emu/citra//pull/7309/files) | core_timing: Allow configuring a fixed or random initial system tick value. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7312](https://github.com/citra-emu/citra//pull/7312) | [`5f9606407`](https://github.com/citra-emu/citra//pull/7312/files) | kernel: Move serialization code out of headers. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7316](https://github.com/citra-emu/citra//pull/7316) | [`1161e358a`](https://github.com/citra-emu/citra//pull/7316/files) | misc: fix issues pointed out by msvc | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [7321](https://github.com/citra-emu/citra//pull/7321) | [`9e3dcdcd1`](https://github.com/citra-emu/citra//pull/7321/files) | Port yuzu-emu/yuzu#7506 & yuzu-emu/yuzu#7861: "Fix yuzu-emu/yuzu#7502" & "yuzu: Mute audio when in background" | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7322](https://github.com/citra-emu/citra//pull/7322) | [`6e030baad`](https://github.com/citra-emu/citra//pull/7322/files) | boss: Add some missing property IDs and fix file enumeration. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7324](https://github.com/citra-emu/citra//pull/7324) | [`736f62ec6`](https://github.com/citra-emu/citra//pull/7324/files) | video_core: Fix crash when no debug context is provided. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7327](https://github.com/citra-emu/citra//pull/7327) | [`476a17bac`](https://github.com/citra-emu/citra//pull/7327/files) | core: Persist plg:ldr state across resets without static state. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
