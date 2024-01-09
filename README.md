@@ -1,3 +1,13 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7312](https://github.com/citra-emu/citra//pull/7312) | [`5f9606407`](https://github.com/citra-emu/citra//pull/7312/files) | kernel: Move serialization code out of headers. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7321](https://github.com/citra-emu/citra//pull/7321) | [`9e3dcdcd1`](https://github.com/citra-emu/citra//pull/7321/files) | Port yuzu-emu/yuzu#7506 & yuzu-emu/yuzu#7861: "Fix yuzu-emu/yuzu#7502" & "yuzu: Mute audio when in background" | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
