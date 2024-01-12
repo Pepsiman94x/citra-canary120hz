@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7171](https://github.com/citra-emu/citra//pull/7171) | [`fe684abc8`](https://github.com/citra-emu/citra//pull/7171/files) | Implement some missing/wrong AC functionality. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7199](https://github.com/citra-emu/citra//pull/7199) | [`07793d30c`](https://github.com/citra-emu/citra//pull/7199/files) | Add random sleep to game main thread on first boot | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [7312](https://github.com/citra-emu/citra//pull/7312) | [`5f9606407`](https://github.com/citra-emu/citra//pull/7312/files) | kernel: Move serialization code out of headers. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7341](https://github.com/citra-emu/citra//pull/7341) | [`7474221ba`](https://github.com/citra-emu/citra//pull/7341/files) | renderer_vulkan: Revert vkGetInstanceProcAddr symbol change for MoltenVK. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
