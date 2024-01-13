@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7312](https://github.com/citra-emu/citra//pull/7312) | [`5f9606407`](https://github.com/citra-emu/citra//pull/7312/files) | kernel: Move serialization code out of headers. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7345](https://github.com/citra-emu/citra//pull/7345) | [`5250cf0bd`](https://github.com/citra-emu/citra//pull/7345/files) | frontend: Add setting for whether to use LLE applets. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7346](https://github.com/citra-emu/citra//pull/7346) | [`f37386c36`](https://github.com/citra-emu/citra//pull/7346/files) | Reorder error handling in extdata FS::CreateFile | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
