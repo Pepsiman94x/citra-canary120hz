@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7312](https://github.com/citra-emu/citra//pull/7312) | [`5f9606407`](https://github.com/citra-emu/citra//pull/7312/files) | kernel: Move serialization code out of headers. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7345](https://github.com/citra-emu/citra//pull/7345) | [`5250cf0bd`](https://github.com/citra-emu/citra//pull/7345/files) | frontend: Add setting for whether to use LLE applets. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7349](https://github.com/citra-emu/citra//pull/7349) | [`5f2a19ee4`](https://github.com/citra-emu/citra//pull/7349/files) | audio_core/hle/source.cpp: Clear config.play_position_dirty regardles of config.play_position value. | [SachinVin](https://github.com/SachinVin/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
