@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7345](https://github.com/citra-emu/citra//pull/7345) | [`5250cf0bd`](https://github.com/citra-emu/citra//pull/7345/files) | frontend: Add setting for whether to use LLE applets. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7355](https://github.com/citra-emu/citra//pull/7355) | [`870625cb1`](https://github.com/citra-emu/citra//pull/7355/files) | glsl_shader_gen: Use epsilon for both ends of NDC range | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7366](https://github.com/citra-emu/citra//pull/7366) | [`ab2c559a2`](https://github.com/citra-emu/citra//pull/7366/files) | shader_unit: Intialize temporaries on shader invocation | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
