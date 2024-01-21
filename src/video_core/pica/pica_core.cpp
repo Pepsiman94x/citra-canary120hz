@@ -256,6 +256,9 @@ void PicaCore::WriteInternalReg(u32 id, u32 value, u32 mask) {
 
     case PICA_REG_INDEX(vs.bool_uniforms):
         vs_setup.WriteUniformBoolReg(regs.internal.vs.bool_uniforms.Value());
+        if (!regs.internal.pipeline.gs_unit_exclusive_configuration) {
+            gs_setup.WriteUniformBoolReg(regs.internal.vs.bool_uniforms.Value());
+        }
         break;
 
     case PICA_REG_INDEX(vs.int_uniforms[0]):
@@ -264,6 +267,9 @@ void PicaCore::WriteInternalReg(u32 id, u32 value, u32 mask) {
     case PICA_REG_INDEX(vs.int_uniforms[3]): {
         const u32 index = (id - PICA_REG_INDEX(vs.int_uniforms[0]));
         vs_setup.WriteUniformIntReg(index, regs.internal.vs.GetIntUniform(index));
+        if (!regs.internal.pipeline.gs_unit_exclusive_configuration) {
+            gs_setup.WriteUniformIntReg(index, regs.internal.vs.GetIntUniform(index));
+        }
         break;
     }
 
@@ -275,7 +281,10 @@ void PicaCore::WriteInternalReg(u32 id, u32 value, u32 mask) {
     case PICA_REG_INDEX(vs.uniform_setup.set_value[5]):
     case PICA_REG_INDEX(vs.uniform_setup.set_value[6]):
     case PICA_REG_INDEX(vs.uniform_setup.set_value[7]): {
-        vs_setup.WriteUniformFloatReg(regs.internal.vs, value);
+        const auto index = vs_setup.WriteUniformFloatReg(regs.internal.vs, value);
+        if (!regs.internal.pipeline.gs_unit_exclusive_configuration && index) {
+            gs_setup.uniforms.f[index.value()] = vs_setup.uniforms.f[index.value()];
+        }
         break;
     }
 
