@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7367](https://github.com/citra-emu/citra//pull/7367) | [`008a0b294`](https://github.com/citra-emu/citra//pull/7367/files) | pica_core: Propagate vertex uniforms to geometry setup when not in exclusive mode | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7368](https://github.com/citra-emu/citra//pull/7368) | [`39441a53b`](https://github.com/citra-emu/citra//pull/7368/files) | cam: Ensure camera implementation is not null before using it | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7375](https://github.com/citra-emu/citra//pull/7375) | [`8ff80b7e2`](https://github.com/citra-emu/citra//pull/7375/files) | build: Add flags to toggle specific renderer backends. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [7377](https://github.com/citra-emu/citra//pull/7377) | [`9ddac92fa`](https://github.com/citra-emu/citra//pull/7377/files) | Implement NEWS service | [DaniElectra](https://github.com/DaniElectra/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
