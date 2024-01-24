@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [7367](https://github.com/citra-emu/citra//pull/7367) | [`008a0b294`](https://github.com/citra-emu/citra//pull/7367/files) | pica_core: Propagate vertex uniforms to geometry setup when not in exclusive mode | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [7372](https://github.com/citra-emu/citra//pull/7372) | [`5a9bb045d`](https://github.com/citra-emu/citra//pull/7372/files) | pica_types: Correctly restrict Float<M, E> precision | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [7377](https://github.com/citra-emu/citra//pull/7377) | [`a11e720ff`](https://github.com/citra-emu/citra//pull/7377/files) | Implement NEWS service | [DaniElectra](https://github.com/DaniElectra/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
